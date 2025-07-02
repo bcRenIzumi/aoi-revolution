@@ -60,7 +60,7 @@ const AppComplete = () => {
     }, []);
 
     return (
-        <div>
+        <div className="app-complete">
             <Header />
             <div className="main-container">
                 <CompletionContent onGoToApplicationList={goToApplicationList} />

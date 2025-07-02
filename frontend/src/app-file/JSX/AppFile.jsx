@@ -64,7 +64,7 @@ const AppFile = () => {
     };
 
     return (
-        <div>
+        <div className="app-file">
             <div className="container-large">
                 <Header />
 

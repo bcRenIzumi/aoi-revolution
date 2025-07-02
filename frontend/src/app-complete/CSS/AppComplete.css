@@ -1,3 +1,6 @@
+/* AppComplete 専用スタイル */
+
+/* AppComplete専用変数 */
 :root {
     --primary-color: #2563eb;
     --secondary-color: #f8fafc;
@@ -23,7 +26,12 @@ body {
     min-height: 100vh;
 }
 
-.header {
+/* AppComplete専用のレイアウト */
+.app-complete {
+    min-height: 100vh;
+}
+
+.app-complete .header {
     background-color: var(--header-color);
     color: white;
     padding: 10px 20px;
@@ -33,48 +41,25 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.header-left {
+.app-complete .header-left {
     display: flex;
     align-items: center;
 }
 
-.app-icon {
-    background-color: var(--primary-color);
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.app-title {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.header-right {
+.app-complete .header-right {
     display: flex;
     align-items: center;
     gap: 15px;
 }
 
-.user-info {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-.main-container {
+.app-complete .main-container {
     display: flex;
     padding: 20px;
     gap: 20px;
     min-height: calc(100vh - 70px);
 }
 
-.content-area {
+.app-complete .content-area {
     flex: 1;
     background: white;
     border-radius: 12px;
@@ -87,7 +72,7 @@ body {
     text-align: center;
 }
 
-.page-title {
+.app-complete .page-title {
     background: var(--primary-color);
     color: white;
     padding: 16px 24px;
@@ -98,7 +83,7 @@ body {
     font-weight: 600;
 }
 
-.success-icon {
+.app-complete .success-icon {
     width: 80px;
     height: 80px;
     background-color: var(--orange-color);
@@ -110,27 +95,27 @@ body {
     box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
 }
 
-.success-icon::before {
+.app-complete .success-icon::before {
     content: "✓";
     color: white;
     font-size: 40px;
     font-weight: bold;
 }
 
-.completion-title {
+.app-complete .completion-title {
     font-size: 28px;
     font-weight: 600;
     color: var(--text-color);
     margin-bottom: 16px;
 }
 
-.completion-message {
+.app-complete .completion-message {
     font-size: 18px;
     color: var(--text-color);
     margin-bottom: 40px;
 }
 
-.action-button {
+.app-complete .action-button {
     background-color: var(--primary-color);
     color: white;
     border: none;
@@ -143,18 +128,18 @@ body {
     margin-bottom: 16px;
 }
 
-.action-button:hover {
+.app-complete .action-button:hover {
     background-color: #1d4ed8;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
-.action-description {
+.app-complete .action-description {
     font-size: 14px;
     color: #6b7280;
 }
 
-.sidebar {
+.app-complete .sidebar {
     width: 300px;
     background: white;
     border-radius: 12px;
@@ -162,7 +147,7 @@ body {
     padding: 24px;
 }
 
-.sidebar-title {
+.app-complete .sidebar-title {
     font-size: 16px;
     font-weight: 600;
     color: var(--text-color);
@@ -170,11 +155,11 @@ body {
     text-align: center;
 }
 
-.status-section {
+.app-complete .status-section {
     margin-bottom: 24px;
 }
 
-.status-header {
+.app-complete .status-header {
     background-color: #1f2937;
     color: white;
     padding: 8px 12px;
@@ -183,7 +168,7 @@ body {
     margin-bottom: 12px;
 }
 
-.status-item {
+.app-complete .status-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -192,19 +177,19 @@ body {
     font-size: 14px;
 }
 
-.status-item:last-child {
+.app-complete .status-item:last-child {
     border-bottom: none;
 }
 
-.status-label {
+.app-complete .status-label {
     color: var(--text-color);
 }
 
-.status-value {
+.app-complete .status-value {
     color: #6b7280;
 }
 
-.status-badge {
+.app-complete .status-badge {
     background-color: var(--primary-color);
     color: white;
     padding: 4px 8px;
@@ -213,21 +198,21 @@ body {
     font-weight: 500;
 }
 
-.approval-section {
+.app-complete .approval-section {
     background-color: #f8fafc;
     border: 1px solid var(--border-color);
     border-radius: 8px;
     padding: 16px;
 }
 
-.approval-header {
+.app-complete .approval-header {
     font-size: 14px;
     font-weight: 600;
     color: var(--text-color);
     margin-bottom: 12px;
 }
 
-.approval-item {
+.app-complete .approval-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -235,39 +220,40 @@ body {
     font-size: 13px;
 }
 
-.date-info {
+.app-complete .date-info {
     font-size: 12px;
     color: #6b7280;
     margin-top: 4px;
 }
 
+/* AppComplete専用レスポンシブ対応 */
 @media (max-width: 768px) {
-    .main-container {
+    .app-complete .main-container {
         flex-direction: column;
         padding: 10px;
     }
 
-    .sidebar {
+    .app-complete .sidebar {
         width: 100%;
         order: -1;
     }
 
-    .content-area {
+    .app-complete .content-area {
         padding: 40px 20px;
     }
 
-    .page-title {
+    .app-complete .page-title {
         margin: -40px -20px 30px -20px;
         width: calc(100% + 40px);
         padding: 12px 20px;
         font-size: 16px;
     }
 
-    .completion-title {
+    .app-complete .completion-title {
         font-size: 24px;
     }
 
-    .completion-message {
+    .app-complete .completion-message {
         font-size: 16px;
     }
 }

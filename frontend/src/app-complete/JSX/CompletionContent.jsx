@@ -1,7 +1,6 @@
 const CompletionContent = ({ onGoToApplicationList }) => {
     return (
         <div className="content-area">
-            <div className="page-title">PC新規手配申請 一元調達PC_DX型モデル申請</div>
 
             <div className="success-icon"></div>
 

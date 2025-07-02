@@ -1,15 +1,12 @@
-const Header = () => {
+import React from 'react';
+
+const FormHeader = () => {
     return (
-        <div className="header">
-            <div className="header-left">
-                <div className="app-icon">P</div>
-                <span className="app-title">Power Apps | 申請アプリA12</span>
-            </div>
-            <div className="header-right">
-                <span className="user-info">共有</span>
-            </div>
+        <div className="form-header">
+            <div className="form-title">PC新規手配申請用-一元調達PC_DX現モデル申請</div>
+            <div className="form-subtitle">申請内容をご確認の上、送信ボタンを押してください</div>
         </div>
     );
 };
 
-export default Header; 
+export default FormHeader; 
