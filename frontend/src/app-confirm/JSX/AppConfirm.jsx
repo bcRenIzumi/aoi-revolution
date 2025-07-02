@@ -3,6 +3,7 @@ import '../CSS/AppConfirm.css';
 import ButtonGroup from './ButtonGroup';
 import ConfirmationContent from './ConfirmationContent';
 import Header from './Header';
+import InfoSection from './InfoSection';
 
 const AppConfirm = () => {
     const handleGoBack = () => {
@@ -45,6 +46,7 @@ const AppConfirm = () => {
         <div className="app-confirm">
             <div className="container">
                 <Header />
+                <InfoSection />
                 <div className="main-content">
                     <ConfirmationContent />
                     <ButtonGroup

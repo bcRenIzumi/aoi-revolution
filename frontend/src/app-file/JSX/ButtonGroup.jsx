@@ -1,30 +1,35 @@
 import React, { useState } from 'react';
 
 const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit }) => {
-    const [isDraftSaving, setIsDraftSaving] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-
-    const handleSaveDraft = async () => {
-        setIsDraftSaving(true);
-        onSaveDraft();
-
-        setTimeout(() => {
-            setIsDraftSaving(false);
-        }, 2000);
-    };
+    const [isDraftSaving, setIsDraftSaving] = useState(false);
 
     const handleSubmit = async () => {
         setIsSubmitting(true);
-        onSubmit();
-
-        setTimeout(() => {
+        try {
+            await onSubmit();
+        } finally {
             setIsSubmitting(false);
-        }, 2000);
+        }
+    };
+
+    const handleSaveDraft = async () => {
+        setIsDraftSaving(true);
+        try {
+            await onSaveDraft();
+            // 2秒後に元の状態に戻す
+            setTimeout(() => {
+                setIsDraftSaving(false);
+            }, 2000);
+        } catch (error) {
+            setIsDraftSaving(false);
+        }
     };
 
     return (
         <div className="button-group">
             <button
+                type="button"
                 className="btn btn-secondary"
                 onClick={onGoBack}
                 disabled={isSubmitting}
@@ -32,18 +37,19 @@ const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit }) => {
                 戻る
             </button>
             <button
-                className="btn btn-outline-primary"
+                className={`btn btn-outline-primary ${isDraftSaving ? 'btn-draft-saved' : ''}`}
                 onClick={handleSaveDraft}
-                disabled={isDraftSaving || isSubmitting}
-            >
-                {isDraftSaving ? '保存中...' : '下書き保存'}
-            </button>
-            <button
-                className="btn btn-primary"
-                onClick={handleSubmit}
                 disabled={isSubmitting || isDraftSaving}
             >
-                {isSubmitting ? '送信中...' : '次へ'}
+                {isDraftSaving ? '保存完了' : '下書き保存'}
+            </button>
+            <button
+                type="button"
+                className="btn btn-primary"
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+            >
+                {isSubmitting ? '送信中...' : '申請'}
             </button>
         </div>
     );

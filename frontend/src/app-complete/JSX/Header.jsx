@@ -1,12 +1,12 @@
 import React from 'react';
 
-const FormHeader = () => {
+const Header = () => {
     return (
-        <div className="form-header">
-            <div className="form-title">PC新規手配申請用-一元調達PC_DX現モデル申請</div>
-            <div className="form-subtitle">申請内容をご確認の上、送信ボタンを押してください</div>
+        <div className="header">
+            <h1>PC新規手配 一元調達PC_DX型モデル申請</h1>
+            <p>必要事項をご入力の上、送信ボタンを押してください</p>
         </div>
     );
 };
 
-export default FormHeader; 
+export default Header; 
