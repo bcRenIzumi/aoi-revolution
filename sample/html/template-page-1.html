@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申請アプリ-A12</title>
+    <link rel="stylesheet" href="style-page-1.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PC新規手配 一元調達PC_DX型モデル申請</h1>
+            <p>必要事項をご入力の上、送信ボタンを押してください</p>
+        </div>
+        <div class="form-container">
+            <div class="info-section">
+                <div class="service-description">
+                    <p>ベネッセグループの執務用のWindowsPCを、<strong>一元調達PCベネッセモデル(DX型)</strong>として提供しています。</p>
+                </div>
+
+                <details class="collapsible-section">
+                    <summary class="section-header">
+                        <span class="section-icon">📋</span>
+                        メニュー・ご案内
+                    </summary>
+                    <div class="section-content">
+                        <div class="info-block">
+                            <h4>📅 納品スケジュール</h4>
+                            <p>現在申込可能な納品日と申請受付締め切り日は以下をご確認ください。</p>
+                            <a href="#" class="info-link">ベネッセ一元調達パソコン納品スケジュール</a>
+                        </div>
+
+                        <div class="info-block">
+                            <h4>📖 申込マニュアル</h4>
+                            <p>申込マニュアルは以下をご確認ください。</p>
+                            <a href="#" class="info-link">一元調達PC（ベネッセモデル）申込マニュアル</a>
+                        </div>
+
+                        <div class="info-block">
+                            <h4>💻 操作方法</h4>
+                            <a href="#" class="info-link">申請アプリの操作方法はこちら</a>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <div class="notice">
+                <div class="notice-title">【重要事項】</div>
+                <ul>
+                    <li>申請内容は慎重にご確認の上で送信してください。</li>
+                    <li>必須項目は必ずご入力ください。</li>
+                    <li>個人情報は適切に管理され、申請処理にのみ使用されます。</li>
+                </ul>
+            </div>
+
+            <form id="applicationForm">
+                <div class="section">
+                    <h2 class="section-title">セクション1</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="applicationNumber">フリーテキスト</label>
+                            <input type="text" id="applicationNumber" name="applicationNumber"
+                                placeholder="AOI000/000001" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="applicationDate">テスト日付<span class="required">*</span></label>
+                            <input type="date" id="applicationDate" name="applicationDate" required>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <h2 class="section-title">セクション2</h2>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">所属会社<span class="required">*</span></label>
+                            <input type="text" id="company" name="company" placeholder="株式会社〇〇" required>
+                            <div class="error-message">所属会社を入力してください</div>
+                            <div class="description">これはテキスト2列用の補足説明です。</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="applicantName">氏名<span class="required">*</span></label>
+                            <input type="text" id="applicantName" name="applicantName" placeholder="山田 太郎" required>
+                            <div class="error-message">氏名を入力してください</div>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">プルダウン<span class="required">*</span></label>
+                            <select id="department" name="department" required>
+                            </select>
+                            <div class="error-message">所属部門を選択してください</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">メールアドレス<span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="taro.yamada@domain.co.jp" required>
+                            <div class="error-message">有効なメールアドレスを入力してください</div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="extension">テキスト1列</label>
+                        <input type="tel" id="extension" name="extension" placeholder="46163">
+                        <div class="description">これはテキスト1列用の補足説明です。</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>ラジオボタン<span class="required">*</span></label>
+                        <div class="radio-group">
+                            <label class="radio-item">
+                                <input type="radio" name="radioOption" value="option1" required>
+                                <span class="radio-text">オプション1</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="radioOption" value="option2" required>
+                                <span class="radio-text">オプション2</span>
+                            </label>
+                            <label class="radio-item">
+                                <input type="radio" name="radioOption" value="option3" required>
+                                <span class="radio-text">オプション3</span>
+                            </label>
+                        </div>
+                        <div class="error-message">いずれかのオプションを選択してください</div>
+                        <div class="description">これはラジオボタン用の補足説明です。</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">下書き保存</button>
+                    <button type="submit" class="btn btn-primary">送信</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>
