@@ -1,0 +1,47 @@
+post:
+  tags:
+    - 認証（AT）
+  summary: 01C_認証登録API
+  description: 認証登録を行うAPI
+  requestBody:
+    description: リクエストボディ
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            lineUserId:
+              type: string
+              example: "U8189cf6745fc0d808977bdb0b9f22995"
+              description: LINEユーザーID
+              minLength: 33
+              maxLength: 33
+            cmnCstNo:
+              type: string
+              example: "1234567890"
+              description: 共通顧客番号
+              minLength: 10
+              maxLength: 10
+            password:
+              type: string
+              example: "password"
+              description: パスワード
+              pattern: "^(?!.*?(.)\\1{2})(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z!#$%&,\\-\\./=\\?@\\[\\]\\^_\\{\\}~]{8,32}$"
+            nickname:
+              type: string
+              example: "テストユーザー"
+              description: ニックネーム
+              maxLength: 12
+          required: [lineUserId, cmnCstNo, password, nickname]
+  responses:
+    200:
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    400:
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    500:
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

@@ -1,0 +1,66 @@
+openapi: "3.1.0"
+info:
+  version: "1.0.0"
+  title: "XXXプロジェクト API仕様書"
+  description: |
+    XXXプロジェクトのAPI仕様書
+
+    ## 1. 概要
+    本APIは、XXXプロジェクトのAPI仕様書です。
+
+    ## 2. APIの命名規則
+
+    ### 2.1 タグ名の命名規則
+
+    1. タグ名を表す英単語の、`先頭文字 + 先頭文字以外の最初の子音`を大文字にしたものとする。
+
+    2. 「1.」が既存の接頭辞と重複する場合、2文字目に指定する子音を次のものに送る。
+      - 例：認証（authenticate）のグループを追加する際、`AT`の接頭辞が既に存在する → `AH`とする。
+
+    3. 2文字目に指定できる子音がない場合、先頭文字以外の最初の母音を2文字目にする
+      - 例：動画（video）のグループを追加する際、`VD`の接頭辞が既に存在する → `VI`とする。
+
+    4. 「3.」が既存の接頭辞と重複する場合、2文字目に指定する母音を次のものに送る。
+
+    ### 2.2 API名の命名規則
+
+    連番2桁＋HTTPメソッドとAPI名を`_`で結合したものとする。
+
+    HTTPメソッドは、`GET`, `POST`, `PUT`, `DELETE`のいずれかを使用し、以下の対応付けとする。
+    - GET: 取得（C）
+    - POST: 登録（R）
+    - PUT: 更新（U）
+    - DELETE: 削除（D）
+
+    ## 3. URL設計規則
+    - `/{open|secure}/{category}/{function}` の形式で統一
+    - open: 認証不要
+    - secure: 認証必須
+    - category: APIカテゴリに対応
+    - function: 具体的な機能名
+
+    ## 4. 環境
+    - 開発環境: http://localhost:8080
+    - 検証環境: （未定）
+    - 本番環境: （未定）
+
+servers:
+  - url: "http://localhost:8080"
+    description: "開発環境"
+
+tags:
+  - name: "認証（AT）"
+    description: "認証機能"
+  - name: "その他（OT）"
+    description: "システム共通機能"
+
+paths:
+  # 認証（AT）カテゴリ - 認証登録API
+  /open/auth/register:
+    $ref: "./paths/01_auth/01_register.yaml"
+  /open/auth/users:
+    $ref: "./paths/01_auth/02_users.yaml"
+
+  # その他（OT）カテゴリ - 業務日付取得API
+  /open/other/health-check:
+    $ref: "./paths/99_other/01_health-check.yaml"

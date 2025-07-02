@@ -1,0 +1,151 @@
+get:
+  tags:
+    - ユーザー
+  summary: 02R_サンプルAPI
+  description: ユーザーに関連する情報を一括で取得するAPI。ユーザーID、ニックネーム、生年月日を取得する。ユーザ属性情報を取得する。ユーザの契約情報を取得する。
+  parameters:
+    - name: SESSION
+      in: cookie
+      description: セッションID
+      required: true
+      schema:
+        type: string
+  responses:
+    200:
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../schemas.yml#/components/schemas/BaseOutputDto"
+              - type: object
+                description: ユーザー情報取得APIのレスポンスDTO
+                properties:
+                  users:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        nickname:
+                          nullable: true
+                          type: string
+                          description: ニックネーム
+                          example: "たろうさん"
+                        courseCode:
+                          nullable: true
+                          type: string
+                          description: コースコード (`route:√Route`, `be:Be高等学院`)
+                          enum: [route, be]
+                        birthday:
+                          nullable: true
+                          type: string
+                          description: 生年月日 (yyyyMMdd)
+                          example: "20201002"
+                        zemiLinkedFlag:
+                          nullable: false
+                          type: boolean
+                          description: ゼミ会員連携フラグ (`true:紐づけあり`, `false:紐づけなし`)
+                          example: true
+                        contractMaintenanceFlag:
+                          nullable: false
+                          type: boolean
+                          description: 契約メンテフラグ  (`true:メンテナンス中`, `false:メンテナンス外`)
+                          example: true
+                        hasParentEmail:
+                          nullable: false
+                          type: boolean
+                          description: 保護者メールアドレス登録有無(`true:登録あり`, `false:登録なし`)
+                          example: true
+                        hasPaidPlanHistory:
+                          nullable: false
+                          type: boolean
+                          description: 有料プラン登録歴 (`true:あり`, `false:なし`)
+                          example: true
+                        staticAttributes:
+                          nullable: true
+                          type: object
+                          description: ユーザー属性情報。属性コードと属性値のセット。ここは数は可変。
+                          properties:
+                            ROUTE_TEACHER_SELECTION:
+                              nullable: false
+                              type: object
+                              properties:
+                                code:
+                                  nullable: false
+                                  type: "string"
+                                  example: "ROUTE_TEACHER_SELECTION_03"
+                                value:
+                                  nullable: false
+                                  type: "string"
+                                  example: "**先生"
+                            ROUTE_UNIV_TEXT:
+                              nullable: false
+                              type: object
+                              properties:
+                                value:
+                                  nullable: false
+                                  type: "string"
+                                  example: "***"
+    400:
+      description: エラー時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/ErrorDto"
+    500:
+      description: 想定外のエラー
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/ErrorDto"
+post:
+  tags:
+    - ユーザー
+  summary: ユーザー情報登録API
+  description: ユーザーのニックネーム、生年月日を登録するAPI。
+  parameters:
+    - name: SESSION
+      in: cookie
+      description: セッションID
+      required: true
+      schema:
+        type: string
+  requestBody:
+    description: リクエストボディ
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            nickname:
+              type: string
+              example: "たろうさん"
+              description: ニックネーム
+            courseCode:
+              type: string
+              description: コースコード (`route:√Route`, `be:Be高等学院`)
+              enum: [route, be]
+            birthday:
+              type: string
+              example: "20201002"
+              description: 生年月日 (yyyyMMdd)
+  responses:
+    200:
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/BaseOutputDto"
+    400:
+      description: エラー時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/ErrorDto"
+    500:
+      description: 想定外のエラー
+      content:
+        application/json:
+          schema:
+            $ref: "../schemas.yml#/components/schemas/ErrorDto"
