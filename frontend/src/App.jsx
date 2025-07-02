@@ -1,5 +1,5 @@
 import './App.css'
-import AppBasic from './app-basic/AppBasic'
+import AppBasic from './app-basic/JSX/AppBasic'
 
 function App() {
     return (

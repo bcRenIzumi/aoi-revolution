@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import './AppBasic.css';
+import '../CSS/AppBasic.css';
 
 const AppBasic = () => {
     const [formData, setFormData] = useState({
