@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
+import Header from '../../app-confirm/JSX/Header';
 import '../../App.css';
 import '../CSS/AppFile.css';
 import ButtonGroup from './ButtonGroup';
 import FileSection from './FileSection';
-import Header from './Header';
 import InfoSection from './InfoSection';
 import ServiceDescription from './ServiceDescription';
 
@@ -65,13 +65,8 @@ const AppFile = () => {
 
     return (
         <div>
-            <Header />
-
             <div className="container-large">
-                <div className="form-header">
-                    <div className="form-title">PC新規手配一元建置PC_DX現モデル申請</div>
-                    <div className="form-subtitle">必要事項をご入力の上、送信ボタンを押してください</div>
-                </div>
+                <Header />
 
                 <div className="info-section">
                     <ServiceDescription />
