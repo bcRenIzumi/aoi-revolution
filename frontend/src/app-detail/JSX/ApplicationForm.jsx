@@ -68,7 +68,7 @@ const ApplicationForm = () => {
                 <h2 className="section-title">機器情報</h2>
 
                 <div className="form-group">
-                    <label htmlFor="deviceManagementCompany">機器管理会社<span className="required">*</span></label>
+                    <label htmlFor="deviceManagementCompany">管理会社<span className="required">*</span></label>
                     <select
                         id="deviceManagementCompany"
                         name="deviceManagementCompany"
@@ -76,9 +76,9 @@ const ApplicationForm = () => {
                         value={formData.deviceManagementCompany}
                         onChange={handleInputChange}
                     >
-                        <option value="">機器管理会社を選択してください</option>
+                        <option value="">管理会社を選択してください</option>
                     </select>
-                    <div className="error-message">機器管理会社を選択してください</div>
+                    <div className="error-message">管理会社を選択してください</div>
                 </div>
 
                 <div className="form-group">
@@ -97,11 +97,12 @@ const ApplicationForm = () => {
             </div>
 
             {/* 管理者・使用者情報セクション */}
+            {/* 管理者情報セクション */}
             <div className="section">
-                <h2 className="section-title">管理者・使用者情報</h2>
+                <h2 className="section-title">管理者情報</h2>
 
                 <div className="form-group">
-                    <label htmlFor="adminDepartment">管理者部門名<span className="required">*</span></label>
+                    <label htmlFor="adminDepartment">部門名<span className="required">*</span></label>
                     <input
                         type="text"
                         id="adminDepartment"
@@ -111,11 +112,11 @@ const ApplicationForm = () => {
                         value={formData.adminDepartment}
                         onChange={handleInputChange}
                     />
-                    <div className="error-message">管理者部門名を入力してください</div>
+                    <div className="error-message">部門名を入力してください</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="adminBeamsId">管理者_BeAMSID<span className="required">*</span></label>
+                    <label htmlFor="adminBeamsId">BeAMSID<span className="required">*</span></label>
                     <input
                         type="text"
                         id="adminBeamsId"
@@ -125,12 +126,12 @@ const ApplicationForm = () => {
                         value={formData.adminBeamsId}
                         onChange={handleInputChange}
                     />
-                    <div className="error-message">管理者_BeAMSIDを入力してください</div>
+                    <div className="error-message">BeAMSIDを入力してください</div>
                     <div className="description">z系IDは管理者に設定できません</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="adminName">管理者氏名<span className="required">*</span></label>
+                    <label htmlFor="adminName">氏名<span className="required">*</span></label>
                     <select
                         id="adminName"
                         name="adminName"
@@ -138,9 +139,9 @@ const ApplicationForm = () => {
                         value={formData.adminName}
                         onChange={handleInputChange}
                     >
-                        <option value="">管理者氏名を選択してください</option>
+                        <option value="">氏名を選択してください</option>
                     </select>
-                    <div className="error-message">管理者氏名を選択してください</div>
+                    <div className="error-message">氏名を選択してください</div>
                     <div className="description">BeAMSIDの入力後に表示される氏名は変更しないでください</div>
                 </div>
 
@@ -156,9 +157,14 @@ const ApplicationForm = () => {
                     />
                     <div className="description">対象はBCのみです。管理者の経理コードと同じ場合は、入力しないでください</div>
                 </div>
+            </div>
+
+            {/* 使用者情報セクション */}
+            <div className="section">
+                <h2 className="section-title">使用者情報</h2>
 
                 <div className="form-group">
-                    <label htmlFor="userDepartment">使用者部門名</label>
+                    <label htmlFor="userDepartment">部門名</label>
                     <input
                         type="text"
                         id="userDepartment"
@@ -170,7 +176,7 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="userBeamsId">使用者_BeAMSID</label>
+                    <label htmlFor="userBeamsId">BeAMSID</label>
                     <input
                         type="text"
                         id="userBeamsId"
@@ -182,24 +188,24 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="userName">使用者氏名</label>
+                    <label htmlFor="userName">氏名（選択）</label>
                     <select
                         id="userName"
                         name="userName"
                         value={formData.userName}
                         onChange={handleInputChange}
                     >
-                        <option value="">使用者氏名を選択してください</option>
+                        <option value="">氏名を選択してください</option>
                     </select>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="userNameFree">使用者氏名（フリー入力）</label>
+                    <label htmlFor="userNameFree">氏名（フリー入力）</label>
                     <input
                         type="text"
                         id="userNameFree"
                         name="userNameFree"
-                        placeholder="使用者氏名を入力してください"
+                        placeholder="氏名を入力してください"
                         value={formData.userNameFree}
                         onChange={handleInputChange}
                     />
@@ -211,7 +217,7 @@ const ApplicationForm = () => {
                 <h2 className="section-title">設置情報</h2>
 
                 <div className="form-group">
-                    <label htmlFor="installationSite">設置拠点<span className="required">*</span></label>
+                    <label htmlFor="installationSite">拠点<span className="required">*</span></label>
                     <select
                         id="installationSite"
                         name="installationSite"
@@ -219,14 +225,14 @@ const ApplicationForm = () => {
                         value={formData.installationSite}
                         onChange={handleInputChange}
                     >
-                        <option value="">設置拠点を選択してください</option>
+                        <option value="">拠点を選択してください</option>
                         <option value="other">その他</option>
                     </select>
-                    <div className="error-message">設置拠点を選択してください</div>
+                    <div className="error-message">拠点を選択してください</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="installationFloor">設置フロア</label>
+                    <label htmlFor="installationFloor">フロア</label>
                     <input
                         type="text"
                         id="installationFloor"
@@ -238,25 +244,25 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="installationSiteOther">設置拠点(その他)</label>
+                    <label htmlFor="installationSiteOther">拠点（その他）</label>
                     <textarea
                         id="installationSiteOther"
                         name="installationSiteOther"
                         rows="3"
-                        placeholder="設置拠点の詳細を入力してください"
+                        placeholder="拠点の詳細を入力してください"
                         value={formData.installationSiteOther}
                         onChange={handleInputChange}
                     ></textarea>
-                    <div className="description">設置拠点が「その他」の場合のみ入力してください</div>
+                    <div className="description">拠点が「その他」の場合のみ入力してください</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="installationDetail">設置場所詳細</label>
+                    <label htmlFor="installationDetail">場所詳細</label>
                     <textarea
                         id="installationDetail"
                         name="installationDetail"
                         rows="3"
-                        placeholder="設置場所の詳細を入力してください"
+                        placeholder="場所の詳細を入力してください"
                         value={formData.installationDetail}
                         onChange={handleInputChange}
                     ></textarea>
@@ -297,7 +303,7 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliveryCompany">納品先社名<span className="required">*</span></label>
+                    <label htmlFor="deliveryCompany">社名<span className="required">*</span></label>
                     <select
                         id="deliveryCompany"
                         name="deliveryCompany"
@@ -305,13 +311,13 @@ const ApplicationForm = () => {
                         value={formData.deliveryCompany}
                         onChange={handleInputChange}
                     >
-                        <option value="">納品先社名を選択してください</option>
+                        <option value="">社名を選択してください</option>
                     </select>
-                    <div className="error-message">納品先社名を選択してください</div>
+                    <div className="error-message">社名を選択してください</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliverySite">納品先拠点<span className="required">*</span></label>
+                    <label htmlFor="deliverySite">拠点<span className="required">*</span></label>
                     <select
                         id="deliverySite"
                         name="deliverySite"
@@ -319,14 +325,14 @@ const ApplicationForm = () => {
                         value={formData.deliverySite}
                         onChange={handleInputChange}
                     >
-                        <option value="">納品先拠点を選択してください</option>
+                        <option value="">拠点を選択してください</option>
                         <option value="other">その他</option>
                     </select>
-                    <div className="error-message">納品先拠点を選択してください</div>
+                    <div className="error-message">拠点を選択してください</div>
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliveryZipCode">納品先住所〒</label>
+                    <label htmlFor="deliveryZipCode">住所〒</label>
                     <input
                         type="text"
                         id="deliveryZipCode"
@@ -339,7 +345,7 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliveryAddress">納品先住所</label>
+                    <label htmlFor="deliveryAddress">住所</label>
                     <textarea
                         id="deliveryAddress"
                         name="deliveryAddress"
@@ -352,7 +358,7 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliveryFloor">納品先フロア</label>
+                    <label htmlFor="deliveryFloor">フロア</label>
                     <input
                         type="text"
                         id="deliveryFloor"
@@ -364,7 +370,7 @@ const ApplicationForm = () => {
                 </div>
 
                 <div className="form-group">
-                    <label htmlFor="deliveryDepartment">納品先部門名</label>
+                    <label htmlFor="deliveryDepartment">部門名</label>
                     <textarea
                         id="deliveryDepartment"
                         name="deliveryDepartment"
