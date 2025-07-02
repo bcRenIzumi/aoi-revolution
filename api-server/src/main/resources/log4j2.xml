@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration status="off" name="MyApp" packages="">
+    <Properties>
+        <Property name="filenameApp">/home/LogFiles/api-server/logs/applicationLog</Property>
+        <Property name="loglayout">%d{yyyy-MM-dd HH:mm:ss.SSS} %-5p [%X{uri}] [%X{version}] [%X{appId}] [%X{userId}] (%t) (%X{sessionId}) %C.%M[%L] "%m" (%X{userAgent})%n</Property>
+    </Properties>
+    <appenders>
+        <Console name="stdout" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%t] %-5p %c - %m%n" />
+        </Console>
+        <RollingFile name="RollingFileApp"
+            fileName="${filenameApp}.log"
+            filePattern="${filenameApp}.log.%d{yyyy-MM-dd}.%i">
+            <PatternLayout pattern="${loglayout}" />
+            <Policies>
+                <TimeBasedTriggeringPolicy />
+                <SizeBasedTriggeringPolicy size="200 MB" />
+            </Policies>
+            <DefaultRolloverStrategy max="999" />
+        </RollingFile>
+        <!-- 30日以上前のログを削除 -->
+        <DefaultRolloverStrategy max="999">
+            <Delete basePath="${filenameApp}" maxDepth="1">
+                <IfFileName glob="*.log.*" />
+                <IfLastModified age="30d" />
+            </Delete>
+        </DefaultRolloverStrategy>
+    </appenders>
+    <loggers>
+        <Logger name="jp.co.benesse" level="info">
+            <appender-ref ref="RollingFileApp" />
+        </Logger>
+        <Logger name="org.springframework.jdbc.core.JdbcTemplate" level="info">
+            <appender-ref ref="RollingFileApp" />
+        </Logger>
+        <Logger name="org" level="info">
+            <appender-ref ref="RollingFileApp" />
+        </Logger>
+        <Logger name="com" level="info">
+            <appender-ref ref="RollingFileApp" />
+        </Logger>
+        <root level="info">
+            <appender-ref ref="stdout" />
+        </root>
+    </loggers>
+</configuration>
