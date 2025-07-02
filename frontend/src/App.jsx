@@ -1,11 +1,11 @@
 import './App.css'
-import PCApplicationForm from './components/PCApplicationForm'
+import AppBasic from './app-basic/AppBasic'
 
 function App() {
     return (
         <>
             {/* PC申請フォーム */}
-            <PCApplicationForm url="/api/pc-application" />
+            <AppBasic />
         </>
     )
 }
