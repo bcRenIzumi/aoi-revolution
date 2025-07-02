@@ -5,7 +5,6 @@
     --border-color: #e2e8f0;
     --error-color: #dc2626;
     --success-color: #16a34a;
-    --header-color: #8661c1;
 }
 
 * {
@@ -22,7 +21,6 @@ body {
     padding: 20px;
 }
 
-/* コンテナ - AppBasic用 */
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -32,17 +30,6 @@ body {
     overflow: hidden;
 }
 
-/* コンテナ - 共通用 */
-.container-large {
-    max-width: 1200px;
-    margin: 60px auto 0;
-    background: white;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-/* ヘッダー - AppBasic用（フォーム内ヘッダー） */
 .header {
     background: var(--primary-color);
     color: white;
@@ -61,64 +48,7 @@ body {
     font-size: 14px;
 }
 
-.header-left {
-    display: flex;
-    align-items: center;
-}
-
-.app-icon {
-    background-color: var(--primary-color);
-    border-radius: 8px;
-    width: 32px;
-    height: 32px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-right: 10px;
-    font-size: 16px;
-    font-weight: bold;
-}
-
-.app-title {
-    font-size: 14px;
-    font-weight: 500;
-}
-
-.header-right {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.user-info {
-    font-size: 12px;
-    opacity: 0.9;
-}
-
-/* フォーム関連 */
 .form-container {
-    padding: 32px;
-}
-
-.form-header {
-    background: var(--primary-color);
-    color: white;
-    padding: 24px;
-    text-align: center;
-}
-
-.form-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin-bottom: 8px;
-}
-
-.form-subtitle {
-    opacity: 0.9;
-    font-size: 14px;
-}
-
-.main-content {
     padding: 32px;
 }
 
@@ -193,33 +123,10 @@ textarea {
     min-height: 100px;
 }
 
-.checkbox-group {
-    margin-top: 16px;
-}
-
-.checkbox-item {
-    display: flex;
-    align-items: center;
-    margin-bottom: 12px;
-}
-
-.checkbox-item input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    margin-right: 12px;
-    accent-color: var(--primary-color);
-}
-
-.checkbox-item label {
-    margin-bottom: 0;
-    cursor: pointer;
-}
-
-/* ボタン関連 */
 .button-group {
     display: flex;
-    gap: 16px;
     justify-content: center;
+    gap: 16px;
     margin-top: 32px;
     flex-wrap: wrap;
 }
@@ -235,100 +142,81 @@ textarea {
     min-width: 120px;
 }
 
-.btn:disabled {
-    opacity: 0.6;
-    cursor: not-allowed;
-}
-
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
 }
 
-.btn-primary:hover:not(:disabled) {
+.btn-primary:hover {
     background-color: #1d4ed8;
     transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .btn-secondary {
-    background-color: #6b7280;
+    background-color: #64748b;
     color: white;
 }
 
-.btn-secondary:hover:not(:disabled) {
-    background-color: #4b5563;
-    transform: translateY(-1px);
-}
-
-.btn-outline-primary {
-    background-color: transparent;
-    color: var(--primary-color);
-    border: 2px solid var(--primary-color);
-}
-
-.btn-outline-primary:hover:not(:disabled) {
-    background-color: var(--primary-color);
-    color: white;
-    transform: translateY(-1px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+.btn-secondary:hover {
+    background-color: #475569;
 }
 
 .error-message {
     color: var(--error-color);
     font-size: 14px;
     margin-top: 4px;
+    display: none;
+}
+
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+    border-color: var(--error-color);
+}
+
+.form-group.error .error-message {
+    display: block;
 }
 
 input[readonly] {
-    background-color: #f1f5f9;
+    background-color: #f8fafc;
     color: #64748b;
     cursor: not-allowed;
 }
 
-/* 情報セクション関連（共通） */
 .info-section {
     margin-bottom: 24px;
 }
 
 .service-description {
-    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-    border: 2px solid #0ea5e9;
+    background-color: #f8fafc;
+    padding: 16px;
     border-radius: 8px;
-    padding: 16px 20px;
     margin-bottom: 16px;
-    text-align: center;
+    border-left: 4px solid var(--primary-color);
 }
 
 .service-description p {
     margin: 0;
-    font-size: 16px;
-    color: #0c4a6e;
-    font-weight: 500;
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .collapsible-section {
-    border: 2px solid var(--border-color);
+    border: 1px solid var(--border-color);
     border-radius: 8px;
-    background: white;
     overflow: hidden;
 }
 
 .section-header {
-    background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-    padding: 16px 20px;
+    background-color: #f8fafc;
+    padding: 16px;
     cursor: pointer;
-    font-weight: 600;
-    font-size: 16px;
-    color: var(--text-color);
     display: flex;
     align-items: center;
+    font-weight: 500;
     transition: background-color 0.3s ease;
-    list-style: none;
-    border: none;
-    width: 100%;
-    text-align: left;
+    user-select: none;
 }
 
 .section-header::-webkit-details-marker {
@@ -339,7 +227,6 @@ input[readonly] {
     content: '▶';
     margin-right: 8px;
     transition: transform 0.3s ease;
-    color: var(--primary-color);
     font-size: 12px;
 }
 
@@ -348,18 +235,16 @@ input[readonly] {
 }
 
 .section-header:hover {
-    background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
+    background-color: #e2e8f0;
 }
 
 .section-icon {
     margin-right: 8px;
-    font-size: 18px;
 }
 
 .section-content {
     padding: 20px;
-    border-top: 1px solid var(--border-color);
-    animation: slideDown 0.3s ease-out;
+    animation: slideDown 0.3s ease;
 }
 
 @keyframes slideDown {
@@ -384,80 +269,58 @@ input[readonly] {
 
 .info-block h4 {
     color: var(--primary-color);
+    margin-bottom: 8px;
     font-size: 16px;
     font-weight: 600;
-    margin-bottom: 8px;
     display: flex;
     align-items: center;
 }
 
 .info-block p {
     margin-bottom: 8px;
-    color: var(--text-color);
-    line-height: 1.6;
+    font-size: 14px;
+    line-height: 1.5;
 }
 
 .description {
-    font-size: 14px;
+    font-size: 12px;
     color: #64748b;
-    padding: 4px 0;
     margin-top: 4px;
-    margin-bottom: 0;
     line-height: 1.4;
+    font-style: italic;
 }
 
 .info-link {
+    display: inline-block;
     color: var(--primary-color);
     text-decoration: none;
     font-weight: 500;
-    display: inline-flex;
-    align-items: center;
-    padding: 8px 12px;
-    border: 1px solid var(--primary-color);
-    border-radius: 6px;
+    padding: 4px 8px;
+    border-radius: 4px;
     transition: all 0.3s ease;
-    background: white;
+    font-size: 14px;
+    position: relative;
+    border: 1px solid transparent;
 }
 
 .info-link:hover {
-    background: var(--primary-color);
-    color: white;
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: var(--primary-color);
     transform: translateY(-1px);
-    box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
 }
 
 .info-link::after {
-    content: '🔗';
-    margin-left: 6px;
+    content: ' ↗';
     font-size: 12px;
 }
 
-
-
-/* レスポンシブ対応 */
 @media (max-width: 768px) {
-    body {
-        padding: 0;
-    }
-
     .container {
-        margin: 0;
-        border-radius: 0;
+        margin: 0 10px;
     }
-
-    .container-large {
-        margin: 0;
-        border-radius: 0;
-    }
-
-
 
     .form-container {
-        padding: 24px 20px;
-    }
-
-    .main-content {
-        padding: 24px 20px;
+        padding: 20px;
     }
 
     .form-row {
@@ -465,12 +328,11 @@ input[readonly] {
     }
 
     .form-row .form-group {
-        min-width: auto;
+        min-width: unset;
     }
 
     .button-group {
         flex-direction: column;
-        padding: 24px 20px;
     }
 
     .btn {
@@ -478,16 +340,15 @@ input[readonly] {
     }
 
     .service-description {
-        padding: 12px 16px;
+        padding: 12px;
     }
 
     .service-description p {
-        font-size: 14px;
+        font-size: 13px;
     }
 
     .section-header {
-        padding: 12px 16px;
-        font-size: 14px;
+        padding: 12px;
     }
 
     .section-content {
@@ -499,14 +360,10 @@ input[readonly] {
     }
 
     .description {
-        font-size: 14px;
-        padding: 10px 12px;
+        font-size: 11px;
     }
 
     .info-link {
-        padding: 6px 10px;
-        font-size: 14px;
+        font-size: 13px;
     }
-
-
 }
