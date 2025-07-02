@@ -1,0 +1,52 @@
+/* AppFile固有のスタイル調整 */
+/* App.cssの統合版を使用するため、重複スタイルを削除 */
+
+/* AppFile用のservice-descriptionとcollapsible-sectionのマージン調整 */
+.container-large .service-description {
+    margin: 30px;
+}
+
+.container-large .collapsible-section {
+    margin: 30px;
+}
+
+/* AppFile用のdescriptionスタイル調整 */
+.container-large .description {
+    font-size: 16px;
+    padding: 12px 16px;
+    background: #f0f9ff;
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 16px;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* AppFile用のservice-descriptionとcollapsible-sectionのマージン調整 */
+.container-large .service-description {
+    margin: 30px;
+}
+
+.container-large .collapsible-section {
+    margin: 30px;
+}
+
+/* AppFile用のdescriptionスタイル調整 */
+.container-large .description {
+    font-size: 16px;
+    padding: 12px 16px;
+    background: #f0f9ff;
+    border-left: 4px solid var(--primary-color);
+    border-radius: 0 4px 4px 0;
+    margin-bottom: 16px;
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+/* AppFile用のbutton-group調整 */
+.container-large .button-group {
+    justify-content: center;
+    padding: 32px;
+    border-top: 2px solid var(--border-color);
+    margin-top: 32px;
+}

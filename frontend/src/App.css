@@ -5,6 +5,7 @@
     --border-color: #e2e8f0;
     --error-color: #dc2626;
     --success-color: #16a34a;
+    --header-color: #8661c1;
 }
 
 * {
@@ -21,6 +22,7 @@ body {
     padding: 20px;
 }
 
+/* コンテナ - AppBasic用 */
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -30,6 +32,17 @@ body {
     overflow: hidden;
 }
 
+/* コンテナ - AppFile用（大きいサイズ） */
+.container-large {
+    max-width: 1200px;
+    margin: 60px auto 0;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* ヘッダー - AppBasic用（フォーム内ヘッダー） */
 .header {
     background: var(--primary-color);
     color: white;
@@ -48,7 +61,80 @@ body {
     font-size: 14px;
 }
 
+/* ヘッダー - AppFile用（固定ヘッダー） */
+.header-fixed {
+    background-color: var(--header-color);
+    color: white;
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+}
+
+.app-icon {
+    background-color: var(--primary-color);
+    border-radius: 8px;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 10px;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.app-title {
+    font-size: 14px;
+    font-weight: 500;
+}
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.user-info {
+    font-size: 12px;
+    opacity: 0.9;
+}
+
+/* フォーム関連 */
 .form-container {
+    padding: 32px;
+}
+
+.form-header {
+    background: var(--primary-color);
+    color: white;
+    padding: 24px;
+    text-align: center;
+}
+
+.form-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.form-subtitle {
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+.main-content {
     padding: 32px;
 }
 
@@ -145,6 +231,7 @@ textarea {
     cursor: pointer;
 }
 
+/* ボタン関連 */
 .button-group {
     display: flex;
     gap: 16px;
@@ -164,12 +251,17 @@ textarea {
     min-width: 120px;
 }
 
+.btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background-color: #1d4ed8;
     transform: translateY(-1px);
     box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
@@ -180,8 +272,22 @@ textarea {
     color: white;
 }
 
-.btn-secondary:hover {
+.btn-secondary:hover:not(:disabled) {
     background-color: #4b5563;
+    transform: translateY(-1px);
+}
+
+.btn-outline-primary {
+    background-color: transparent;
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+}
+
+.btn-outline-primary:hover:not(:disabled) {
+    background-color: var(--primary-color);
+    color: white;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
 }
 
 .error-message {
@@ -196,7 +302,7 @@ input[readonly] {
     cursor: not-allowed;
 }
 
-/* 折り畳み領域のスタイル */
+/* 情報セクション関連（共通） */
 .info-section {
     margin-bottom: 24px;
 }
@@ -236,6 +342,9 @@ input[readonly] {
     align-items: center;
     transition: background-color 0.3s ease;
     list-style: none;
+    border: none;
+    width: 100%;
+    text-align: left;
 }
 
 .section-header::-webkit-details-marker {
@@ -339,13 +448,84 @@ input[readonly] {
     font-size: 12px;
 }
 
+/* ファイルアップロード関連（AppFile専用） */
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.file-button {
+    background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+    color: var(--primary-color);
+    border: 2px solid #bfdbfe;
+    padding: 16px 24px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    min-height: 60px;
+}
+
+.file-button:hover {
+    background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+    border-color: #93c5fd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.15);
+}
+
+.file-button.drag-over {
+    background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+    border-color: #16a34a;
+    border-style: dashed;
+    color: #16a34a;
+    transform: scale(1.02);
+    box-shadow: 0 6px 20px rgba(34, 197, 94, 0.2);
+}
+
+.file-button.file-attached {
+    background: linear-gradient(135deg, #ecfdf5 0%, #d1fae5 100%);
+    border-color: #16a34a;
+    color: #15803d;
+}
+
+.file-button.file-attached:hover {
+    background: linear-gradient(135deg, #d1fae5 0%, #bbf7d0 100%);
+    border-color: #059669;
+}
+
+/* レスポンシブ対応 */
 @media (max-width: 768px) {
+    body {
+        padding: 0;
+    }
+
     .container {
         margin: 0;
         border-radius: 0;
     }
 
+    .container-large {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .header-fixed {
+        position: relative;
+    }
+
     .form-container {
+        padding: 24px 20px;
+    }
+
+    .main-content {
         padding: 24px 20px;
     }
 
@@ -359,6 +539,7 @@ input[readonly] {
 
     .button-group {
         flex-direction: column;
+        padding: 24px 20px;
     }
 
     .btn {
@@ -394,5 +575,10 @@ input[readonly] {
     .info-link {
         padding: 6px 10px;
         font-size: 14px;
+    }
+
+    .file-grid {
+        grid-template-columns: 1fr;
+        gap: 12px;
     }
 }

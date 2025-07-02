@@ -1,12 +1,18 @@
-import './App.css'
+import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import AppBasic from './app-basic/JSX/AppBasic'
+import AppFile from './app-file/JSX/AppFile'
+import './App.css'
 
 function App() {
     return (
-        <>
-            {/* PC申請フォーム */}
-            <AppBasic />
-        </>
+        <Router basename="/sample-vite/dist">
+            <Routes>
+                <Route path="/pc/app-basic" element={<AppBasic />} />
+                <Route path="/pc/app-file" element={<AppFile />} />
+                {/* デフォルトルート - /pc/app-basicにリダイレクト */}
+                <Route path="/" element={<AppBasic />} />
+            </Routes>
+        </Router>
     )
 }
 
