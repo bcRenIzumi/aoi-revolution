@@ -30,4 +30,12 @@ public class SampleAPIController {
         return "success";
     }
 
+    @GetMapping("/api/sampleApi2")
+    public SampleEntity testAPI2() {
+        SampleEntity sampleEntity = new SampleEntity();
+        sampleEntity.setId("1");
+        sampleEntity.setTitle("test");
+        sampleEntity.setCapacity(10);
+        return sampleEntity;
+    }
 }

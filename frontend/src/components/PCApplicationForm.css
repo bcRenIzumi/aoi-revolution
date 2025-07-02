@@ -1,0 +1,61 @@
+.pc-application-form {
+    width: 100vw;
+    margin: 0;
+    padding: 20px;
+    background-color: #f5f5f5;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+
+
+/* フォームセクション */
+.form-section {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.section-header {
+    background-color: #f0f0f0;
+    padding: 15px 20px;
+    border-bottom: 1px solid #e0e0e0;
+    display: flex;
+    align-items: center;
+}
+
+.section-number {
+    background-color: #ff6b35;
+    color: white;
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 14px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+.section-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #333;
+}
+
+/* フォーム */
+.application-form {
+    padding: 20px;
+}
+
+
+
+/* レスポンシブ対応 */
+@media (max-width: 768px) {
+    .pc-application-form {
+        padding: 10px;
+    }
+}
