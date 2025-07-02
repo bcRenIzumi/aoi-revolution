@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>申請アプリ-A12</title>
+    <link rel="stylesheet" href="style-page-1.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>PC申請入力フォーム</h1>
+            <p>必要事項をご入力の上、送信ボタンを押してください</p>
+        </div>
+        <div class="form-container">
+            <!-- 申請に関する情報セクション -->
+            <div class="info-section">
+                <div class="service-description">
+                    <p>ベネッセグループの執務用のWindowsPCを、一元調達PCベネッセモデル(DX型)として提供しています。</p>
+                </div>
+                <details class="collapsible-section">
+                    <summary class="section-header">
+                        <span class="section-icon">📋</span>
+                        メニュー・ご案内
+                    </summary>
+                    <div class="section-content">
+                        <div class="info-block">
+                            <h4>📅 納品スケジュール</h4>
+                            <p>現在申込可能な納品日と申請受付締め切り日は以下をご確認ください。</p>
+                            <a href="https://bnhd.sharepoint.com/sites/bgportal/intra/O3651/PC_Schedule.pdf"
+                                class="info-link">ベネッセ一元調達パソコン納品スケジュール</a>
+                        </div>
+                        <div class="info-block">
+                            <h4>📖 申込マニュアル</h4>
+                            <p>申込マニュアルは以下をご確認ください。</p>
+                            <a href="https://bnhd.sharepoint.com/sites/bgportal/intra/O3651/PC_Order_BCmodel_kyoutusoudan.pdf"
+                                class="info-link">一元調達PC（ベネッセモデル）申込マニュアル</a>
+                        </div>
+                        <div class="info-block">
+                            <h4>💻 操作方法</h4>
+                            <p>申請アプリの操作方法はこちら</p>
+                            <a href="https://bnhd.sharepoint.com/sites/PJ949/Shared%20Documents/Forms/AllItems.aspx?id=%2Fsites%2FPJ949%2FShared%20Documents%2F001%EF%BC%8EPJ%E5%85%A8%E4%BD%93%E7%AE%A1%E7%90%86%2F101%2E%20%E6%96%B0UI%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB%2F%E3%80%90%E5%85%B1%E9%80%9A%E7%94%B3%E8%AB%8B%E3%82%B7%E3%82%B9%E3%83%86%E3%83%A0%E3%80%91%E7%94%B3%E8%AB%8B%E8%80%85%E5%90%91%E3%81%91%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%ABV2%2E0%2Epdf&parent=%2Fsites%2FPJ949%2FShared%20Documents%2F001%EF%BC%8EPJ%E5%85%A8%E4%BD%93%E7%AE%A1%E7%90%86%2F101%2E%20%E6%96%B0UI%E3%83%9E%E3%83%8B%E3%83%A5%E3%82%A2%E3%83%AB&p=true&ga=1"
+                                class="info-link">共通申請システム申請者向けマニュアル</a>
+                        </div>
+                    </div>
+                </details>
+            </div>
+
+            <!-- セクション毎のフォーム生成 -->
+            <form id="applicationForm">
+                <!-- 基本情報 -->
+                <div class="section">
+                    <h2 class="section-title">基本情報</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="applicationNumber">申請番号</label>
+                            <input type="text" id="applicationNumber" name="applicationNumber" placeholder="自動生成・読み取り専用"
+                                readonly>
+                        </div>
+                        <div class="form-group">
+                            <label for="applicationDate">申請日<span class="required">*</span></label>
+                            <input type="date" id="applicationDate" name="applicationDate" required>
+                            <div class="error-message">申請日を入力してください</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="subject">件名<span class="required">*</span></label>
+                        <input type="text" id="subject" name="subject" placeholder="件名を入力してください" required>
+                        <div class="error-message">件名を入力してください</div>
+                    </div>
+                </div>
+
+                <!-- 申請者情報 -->
+                <div class="section">
+                    <h2 class="section-title">申請者情報</h2>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">所属会社<span class="required">*</span></label>
+                            <input type="text" id="company" name="company" placeholder="所属会社を入力してください" required>
+                            <div class="error-message">所属会社を入力してください</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">氏名<span class="required">*</span></label>
+                            <input type="text" id="name" name="name" placeholder="氏名を入力してください" required>
+                            <div class="error-message">氏名を入力してください</div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="department">所属部門<span class="required">*</span></label>
+                            <select id="department" name="department" required>
+                                <option value="">選択してください</option>
+                                <option value="総務部">総務部</option>
+                                <option value="人事部">人事部</option>
+                                <option value="情報システム部">情報システム部</option>
+                                <option value="営業部">営業部</option>
+                                <option value="マーケティング部">マーケティング部</option>
+                                <option value="経理部">経理部</option>
+                                <option value="開発部">開発部</option>
+                                <option value="その他">その他</option>
+                            </select>
+                            <div class="error-message">所属部門を選択してください</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="section">所属課</label>
+                            <input type="text" id="section" name="section" placeholder="所属課を入力してください">
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="email">メールアドレス<span class="required">*</span></label>
+                            <input type="email" id="email" name="email" placeholder="example@domain.co.jp" required>
+                            <div class="error-message">有効なメールアドレスを入力してください</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="employeeNumber">社員番号<span class="required">*</span></label>
+                            <input type="text" id="employeeNumber" name="employeeNumber" placeholder="社員番号を入力してください"
+                                required>
+                            <div class="error-message">社員番号を入力してください</div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="extension">内線番号</label>
+                        <input type="text" id="extension" name="extension" placeholder="内線番号を入力してください">
+                    </div>
+                </div>
+
+                <!-- 承認者情報 -->
+                <div class="section">
+                    <h2 class="section-title">承認者情報</h2>
+                    <div class="form-group">
+                        <label for="managerSelect">上司から選択<span class="required">*</span></label>
+                        <select id="managerSelect" name="managerSelect" required>
+                            <option value="">選択してください</option>
+                            <option value="田中次郎（部長）">田中次郎（部長）</option>
+                            <option value="佐藤花子（課長）">佐藤花子（課長）</option>
+                            <option value="鈴木一郎（係長）">鈴木一郎（係長）</option>
+                            <option value="その他">その他</option>
+                        </select>
+                        <div class="error-message">上司から選択してください</div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="approver1">承認者１<span class="required">*</span></label>
+                            <select id="approver1" name="approver1" required>
+                                <option value="">選択してください</option>
+                                <option value="部門長">部門長</option>
+                                <option value="課長">課長</option>
+                                <option value="係長">係長</option>
+                                <option value="その他指定">その他指定</option>
+                            </select>
+                            <div class="error-message">承認者１を選択してください</div>
+                        </div>
+                        <div class="form-group">
+                            <label for="approver2">承認者２</label>
+                            <select id="approver2" name="approver2">
+                                <option value="">選択してください</option>
+                                <option value="本部長">本部長</option>
+                                <option value="取締役">取締役</option>
+                                <option value="社長">社長</option>
+                                <option value="その他指定">その他指定</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="publicFlag" name="publicFlag">
+                                <span class="checkbox-text">公開フラグ</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" id="agreement" name="agreement" required>
+                                <span class="checkbox-text">上記内容に相違なく、申請いたします。<span class="required">*</span></span>
+                            </label>
+                        </div>
+                        <div class="error-message">同意項目にチェックしてください</div>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="clearForm()">下書き保存</button>
+                    <button type="submit" class="btn btn-primary">送信</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // 申請日の初期値設定
+        document.addEventListener('DOMContentLoaded', function () {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('applicationDate').value = today;
+        });
+
+        // フォームクリア機能
+        function clearForm() {
+            if (confirm('入力内容をクリアしますか？')) {
+                document.getElementById('applicationForm').reset();
+                const today = new Date().toISOString().split('T')[0];
+                document.getElementById('applicationDate').value = today;
+            }
+        }
+
+        // フォーム送信処理
+        document.getElementById('applicationForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+
+            // バリデーション
+            const requiredFields = this.querySelectorAll('[required]');
+            let isValid = true;
+
+            requiredFields.forEach(field => {
+                const errorDiv = field.parentNode.querySelector('.error-message');
+                if (!field.value.trim()) {
+                    field.classList.add('error');
+                    if (errorDiv) errorDiv.style.display = 'block';
+                    isValid = false;
+                } else {
+                    field.classList.remove('error');
+                    if (errorDiv) errorDiv.style.display = 'none';
+                }
+            });
+
+            if (isValid) {
+                alert('申請を送信しました。');
+                // ここで実際の送信処理を行う
+            } else {
+                alert('必須項目を入力してください。');
+            }
+        });
+    </script>
+</body>
+
+</html>
