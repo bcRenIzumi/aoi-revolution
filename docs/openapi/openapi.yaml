@@ -51,8 +51,6 @@ servers:
 tags:
   - name: "共通（CM）"
     description: "共通機能"
-  - name: "認証（AT）"
-    description: "認証機能"
   - name: "その他（OT）"
     description: "システム共通機能"
 
