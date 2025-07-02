@@ -27,8 +27,8 @@ info:
     連番2桁＋HTTPメソッドとAPI名を`_`で結合したものとする。
 
     HTTPメソッドは、`GET`, `POST`, `PUT`, `DELETE`のいずれかを使用し、以下の対応付けとする。
-    - GET: 取得（C）
-    - POST: 登録（R）
+    - GET: 取得（R）
+    - POST: 登録（C）
     - PUT: 更新（U）
     - DELETE: 削除（D）
 
@@ -49,17 +49,17 @@ servers:
     description: "開発環境"
 
 tags:
+  - name: "共通（CM）"
+    description: "共通機能"
   - name: "認証（AT）"
     description: "認証機能"
   - name: "その他（OT）"
     description: "システム共通機能"
 
 paths:
-  # 認証（AT）カテゴリ - 認証登録API
-  /open/auth/register:
-    $ref: "./paths/01_auth/01_register.yaml"
-  /open/auth/users:
-    $ref: "./paths/01_auth/02_users.yaml"
+  # 共通（CM）カテゴリ - 基本情報取得API
+  /open/common/basic-info:
+    $ref: "./paths/01_common/01_basic-info.yaml"
 
   # その他（OT）カテゴリ - 業務日付取得API
   /open/other/health-check:

@@ -40,6 +40,44 @@ docs-example/openapi/
 ### 3. フォーマット
 - 各API用のyamlファイルは以下のような形式で記載すること
 
+**getのケース**
+```yaml
+get:
+  tags:
+    - その他（OT）
+  summary: 02R_バリデーションサンプルAPI
+  description: バリデーションサンプルAPI
+  parameters:
+    - name: name
+      in: query
+      required: true
+      description: |
+        名前
+
+        **その他バリデーション:**
+        - minLength: 5
+        - maxLength: 10
+        - pattern: "^[a-zA-Z0-9]+$"
+      schema:
+        type: string
+        example: "テストユーザー"
+        minLength: 5
+        maxLength: 10
+        pattern: "^[a-zA-Z0-9]+$"
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
+```
+
+**postのケース**
 ```yaml
 post:
   tags:
