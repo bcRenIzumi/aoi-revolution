@@ -1,0 +1,34 @@
+get:
+  tags:
+    - PC環境系（PC）
+  summary: PC機種一覧取得API
+  description: PC機種の一覧情報を取得する
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        pcModelId:
+                          type: string
+                          description: PC機種ID
+                          example: "P0001"
+                        pcModelName:
+                          type: string
+                          description: PC機種名
+                          example: "ThinkPad X1 Carbon"
+                      required: [pcModelId, pcModelName]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

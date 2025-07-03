@@ -1,0 +1,92 @@
+post:
+  tags:
+    - 申請系（AP）
+  summary: PC申請仮登録API
+  description: PC申請を仮登録する
+  parameters:
+    - name: applicationNumber
+      in: path
+      required: true
+      description: 申請番号
+      schema:
+        type: string
+        example: "A202401010001"
+  requestBody:
+    description: リクエストボディ
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            pcRequest:
+              type: object
+              description: PC申請情報
+              properties:
+                pcModelId:
+                  type: string
+                  description: PC機種ID
+                  example: "P0001"
+                networkEnvId:
+                  type: string
+                  description: ネットワーク環境ID
+                  example: "N0001"
+              required: [pcModelId, networkEnvId]
+          required: [pcRequest]
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
+
+get:
+  tags:
+    - 申請系（AP）
+  summary: PC申請情報取得API
+  description: PC申請情報を取得する
+  parameters:
+    - name: applicationNumber
+      in: path
+      required: true
+      description: 申請番号
+      schema:
+        type: string
+        example: "A202401010001"
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      pcRequest:
+                        type: object
+                        description: PC申請情報
+                        properties:
+                          pcModelId:
+                            type: string
+                            description: PC機種ID
+                            example: "P0001"
+                          networkEnvId:
+                            type: string
+                            description: ネットワーク環境ID
+                            example: "N0001"
+                        required: [pcModelId, networkEnvId]
+                    required: [pcRequest]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

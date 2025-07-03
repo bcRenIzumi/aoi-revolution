@@ -1,0 +1,28 @@
+post:
+  tags:
+    - 共通系（CM）
+  summary: 申請番号発番API
+  description: 申請番号を発番する
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: object
+                    properties:
+                      applicationNumber:
+                        type: string
+                        description: 申請番号
+                        example: "A202401010001"
+                    required: [applicationNumber]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

@@ -49,16 +49,46 @@ servers:
     description: "開発環境"
 
 tags:
-  - name: "共通（CM）"
-    description: "共通機能"
-  - name: "その他（OT）"
-    description: "システム共通機能"
+  - name: "社員系（EM）"
+    description: "社員情報の参照や管理に関するAPI"
+  - name: "企業系（CP）"
+    description: "企業情報や拠点情報の参照に関するAPI"
+  - name: "PC環境系（PC）"
+    description: "PCやネットワーク環境に関するAPI"
+  - name: "共通系（CM）"
+    description: "共通機能を提供するAPI"
+  - name: "申請系（AP）"
+    description: "PC申請に関する登録・参照を行うAPI"
 
 paths:
-  # 共通（CM）カテゴリ - 基本情報取得API
-  /open/common/basic-info:
-    $ref: "./paths/01_common/01_basic-info.yaml"
+  # 社員系（EM）カテゴリ
+  /secure/employee/list:
+    $ref: "./paths/01_employee/01_employee-list.yaml"
+  /secure/employee/{employeeId}:
+    $ref: "./paths/01_employee/02_employee-detail.yaml"
 
-  # その他（OT）カテゴリ - 業務日付取得API
-  /open/other/health-check:
-    $ref: "./paths/99_other/01_health-check.yaml"
+  # 企業系（CP）カテゴリ
+  /secure/company/list:
+    $ref: "./paths/02_company/01_company-list.yaml"
+  /secure/company/{companyId}/location:
+    $ref: "./paths/02_company/02_location-list.yaml"
+
+  # PC環境系（PC）カテゴリ
+  /open/pc/network:
+    $ref: "./paths/03_pc/01_network-list.yaml"
+  /open/pc/model:
+    $ref: "./paths/03_pc/02_pc-model-list.yaml"
+
+  # 共通系（CM）カテゴリ
+  /secure/common/application-number:
+    $ref: "./paths/04_common/01_application-number.yaml"
+
+  # 申請系（AP）カテゴリ
+  /secure/application/{applicationNumber}/register:
+    $ref: "./paths/05_application/01_application-register.yaml"
+  /secure/application/{applicationNumber}/basic:
+    $ref: "./paths/05_application/02_basic-info.yaml"
+  /secure/application/{applicationNumber}/file:
+    $ref: "./paths/05_application/03_file-info.yaml"
+  /secure/application/{applicationNumber}/pc:
+    $ref: "./paths/05_application/04_pc-request.yaml"

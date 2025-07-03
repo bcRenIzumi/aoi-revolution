@@ -1,0 +1,34 @@
+get:
+  tags:
+    - PC環境系（PC）
+  summary: ネットワーク情報一覧取得API
+  description: ネットワーク環境の一覧情報を取得する
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        networkEnvId:
+                          type: string
+                          description: ネットワーク環境ID
+                          example: "N0001"
+                        networkEnvName:
+                          type: string
+                          description: ネットワーク環境名
+                          example: "社内LAN"
+                      required: [networkEnvId, networkEnvName]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
