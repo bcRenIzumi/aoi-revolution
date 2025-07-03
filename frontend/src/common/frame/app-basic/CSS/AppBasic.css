@@ -1,0 +1,369 @@
+:root {
+    --primary-color: #2563eb;
+    --secondary-color: #f8fafc;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --error-color: #dc2626;
+    --success-color: #16a34a;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', sans-serif;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: var(--secondary-color);
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.header {
+    background: var(--primary-color);
+    color: white;
+    padding: 24px;
+    text-align: center;
+}
+
+.header h1 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 8px;
+}
+
+.header p {
+    opacity: 0.9;
+    font-size: 14px;
+}
+
+.form-container {
+    padding: 32px;
+}
+
+.section {
+    margin-bottom: 32px;
+}
+
+.section-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--primary-color);
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-row {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.form-row .form-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+    color: var(--text-color);
+}
+
+.required {
+    color: var(--error-color);
+    margin-left: 4px;
+}
+
+input[type="text"],
+input[type="email"],
+input[type="tel"],
+input[type="date"],
+select,
+textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+    background-color: white;
+}
+
+input[type="text"]:focus,
+input[type="email"]:focus,
+input[type="tel"]:focus,
+input[type="date"]:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.button-group {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 32px;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 12px 32px;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    min-width: 120px;
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #1d4ed8;
+    transform: translateY(-1px);
+}
+
+.btn-secondary {
+    background-color: #64748b;
+    color: white;
+}
+
+.btn-secondary:hover {
+    background-color: #475569;
+}
+
+.error-message {
+    color: var(--error-color);
+    font-size: 14px;
+    margin-top: 4px;
+    display: none;
+}
+
+.form-group.error input,
+.form-group.error select,
+.form-group.error textarea {
+    border-color: var(--error-color);
+}
+
+.form-group.error .error-message {
+    display: block;
+}
+
+input[readonly] {
+    background-color: #f8fafc;
+    color: #64748b;
+    cursor: not-allowed;
+}
+
+.info-section {
+    margin-bottom: 24px;
+}
+
+.service-description {
+    background-color: #f8fafc;
+    padding: 16px;
+    border-radius: 8px;
+    margin-bottom: 16px;
+    border-left: 4px solid var(--primary-color);
+}
+
+.service-description p {
+    margin: 0;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.collapsible-section {
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.section-header {
+    background-color: #f8fafc;
+    padding: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+    user-select: none;
+}
+
+.section-header::-webkit-details-marker {
+    display: none;
+}
+
+.section-header::before {
+    content: '▶';
+    margin-right: 8px;
+    transition: transform 0.3s ease;
+    font-size: 12px;
+}
+
+.collapsible-section[open] .section-header::before {
+    transform: rotate(90deg);
+}
+
+.section-header:hover {
+    background-color: #e2e8f0;
+}
+
+.section-icon {
+    margin-right: 8px;
+}
+
+.section-content {
+    padding: 20px;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.info-block {
+    margin-bottom: 20px;
+}
+
+.info-block:last-child {
+    margin-bottom: 0;
+}
+
+.info-block h4 {
+    color: var(--primary-color);
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+}
+
+.info-block p {
+    margin-bottom: 8px;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.description {
+    font-size: 12px;
+    color: #64748b;
+    margin-top: 4px;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.info-link {
+    display: inline-block;
+    color: var(--primary-color);
+    text-decoration: none;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    font-size: 14px;
+    position: relative;
+    border: 1px solid transparent;
+}
+
+.info-link:hover {
+    background-color: rgba(37, 99, 235, 0.1);
+    border-color: var(--primary-color);
+    transform: translateY(-1px);
+}
+
+.info-link::after {
+    content: ' ↗';
+    font-size: 12px;
+}
+
+@media (max-width: 768px) {
+    .container {
+        margin: 0 10px;
+    }
+
+    .form-container {
+        padding: 20px;
+    }
+
+    .form-row {
+        flex-direction: column;
+    }
+
+    .form-row .form-group {
+        min-width: unset;
+    }
+
+    .button-group {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+    }
+
+    .service-description {
+        padding: 12px;
+    }
+
+    .service-description p {
+        font-size: 13px;
+    }
+
+    .section-header {
+        padding: 12px;
+    }
+
+    .section-content {
+        padding: 16px;
+    }
+
+    .info-block h4 {
+        font-size: 14px;
+    }
+
+    .description {
+        font-size: 11px;
+    }
+
+    .info-link {
+        font-size: 13px;
+    }
+}
