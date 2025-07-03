@@ -26,6 +26,8 @@ const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit, isConfirmPage = false, p
             if (pageNumber < 5) {
                 const nextPage = pageRoutes[pageNumber + 1];
                 navigate(`../${nextPage}`, { replace: true });
+                // ページ遷移後、一番上にスクロール
+                setTimeout(() => window.scrollTo(0, 0), 0);
             }
         } finally {
             setIsSubmitting(false);
@@ -39,6 +41,8 @@ const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit, isConfirmPage = false, p
             // デフォルトの戻る処理：前のページに遷移
             const prevPage = pageRoutes[pageNumber - 1];
             navigate(`../${prevPage}`, { replace: true });
+            // ページ遷移後、一番上にスクロール
+            setTimeout(() => window.scrollTo(0, 0), 0);
         }
     };
 

@@ -16,17 +16,17 @@ const AppComplete = ({ headerConfig, infoConfig, pageNumber }) => {
 
     return (
         <div className="app-complete">
-            <div className="app-complete-container">
-                <Header
-                    title={headerConfig.title}
-                    description={headerConfig.description}
-                    pageNumber={pageNumber}
-                />
-                <InfoSection config={infoConfig} />
-                <div className="completion-main">
-                    <div className="content-container">
-                        <CompletionContent onGoToApplicationList={goToApplicationList} />
-                    </div>
+            <Header
+                title={headerConfig?.title}
+                description={headerConfig?.description}
+                pageNumber={pageNumber}
+            />
+            <InfoSection config={infoConfig} />
+            <div className="main-container">
+                <div className="content-area">
+                    <CompletionContent onGoToApplicationList={goToApplicationList} />
+                </div>
+                <div className="sidebar">
                     <StatusSidebar />
                 </div>
             </div>
