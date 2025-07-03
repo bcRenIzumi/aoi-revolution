@@ -1,14 +1,15 @@
 {
+    "version": "0.2.0",
     "configurations": [
         {
             "type": "java",
-            "name": "Spring Boot-Application<final-production>",
+            "name": "api-server local launch",
             "request": "launch",
-            "cwd": "${workspaceFolder}",
-            "mainClass": "jp.co.benesse.fy25.training.spring.Application",
-            "projectName": "final-production",
+            "cwd": "${workspaceFolder}/api-server",
+            "mainClass": "jp.co.benesse.xxx.Application",
+            "projectName": "api-server",
             "args": "",
-            "envFile": "${workspaceFolder}/.env"
+            "vmArgs": "-Dspring.profiles.active=local"
         }
     ]
 }
