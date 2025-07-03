@@ -22,7 +22,23 @@ const FormField = ({
         try {
             const response = await fetch(field.apiUrl);
             const data = await response.json();
-            setOptions(data.options || []);
+
+            console.log('API Response:', data);
+
+            // APIレスポンスのdata配列を取得
+            const apiData = data.data || [];
+
+            // オプション形式に変換
+            const formattedOptions = apiData.map(item => {
+                // 汎用的なマッピング：最初のプロパティをvalue、2番目をlabelとして使用
+                const keys = Object.keys(item);
+                return {
+                    value: item[keys[0]], // 最初のプロパティ（例：companyId）
+                    label: item[keys[1]] || item[keys[0]] // 2番目のプロパティ（例：companyName）、なければ最初のプロパティ
+                };
+            });
+
+            setOptions(formattedOptions);
         } catch (error) {
             console.error('Failed to fetch options:', error);
             setOptions([]);
@@ -72,14 +88,6 @@ const FormField = ({
             case 'select':
                 return (
                     <select {...commonProps}>
-                        {field.placeholder && (
-                            <option value="">{field.placeholder}</option>
-                        )}
-                        {field.options?.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
                         {options.map(option => (
                             <option key={option.value} value={option.value}>
                                 {option.label}
