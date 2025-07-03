@@ -15,7 +15,12 @@ function ID_0002() {
             <Route path="page1" element={<AppBasic formConfig={formConfig1} headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
             <Route path="page2" element={<AppDetail formConfig={formConfig2} headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
             <Route path="page3" element={<AppFile headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
-            <Route path="page4" element={<AppConfirm headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
+            <Route path="page4" element={<AppConfirm
+                headerConfig={headerConfig}
+                infoConfig={infoSectionConfig}
+                basicFormConfig={formConfig1}
+                formConfig={formConfig2}
+            />} />
             <Route path="page5" element={<AppComplete headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
             {/* ルートアクセス時はpage1にリダイレクト */}
             <Route path="/" element={<Navigate to="page1" replace />} />

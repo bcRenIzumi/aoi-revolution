@@ -5,7 +5,7 @@ import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppConfirm.css';
 import ConfirmationContent from './ConfirmationContent';
 
-const AppConfirm = ({ headerConfig, infoConfig }) => {
+const AppConfirm = ({ headerConfig, infoConfig, basicFormConfig, formConfig }) => {
     const handleGoBack = () => {
         if (window.confirm('前のページに戻りますか？')) {
             window.history.back();
@@ -48,7 +48,10 @@ const AppConfirm = ({ headerConfig, infoConfig }) => {
                 <Header title={headerConfig?.title} description={headerConfig?.description} />
                 <InfoSection infoConfig={infoConfig} />
                 <div className="main-content">
-                    <ConfirmationContent />
+                    <ConfirmationContent
+                        basicFormConfig={basicFormConfig}
+                        formConfig={formConfig}
+                    />
                     <ButtonGroup
                         onGoBack={handleGoBack}
                         onSaveDraft={handleSaveDraft}
