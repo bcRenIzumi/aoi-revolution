@@ -1,0 +1,27 @@
+{
+    "recommendations": [
+        "alefragnani.project-manager",
+        "redhat.java",
+        "usernamehw.errorlens",
+        "vmware.vscode-boot-dev-pack",
+        "vmware.vscode-spring-boot",
+        "vscjava.vscode-java-debug",
+        "vscjava.vscode-java-dependency",
+        "vscjava.vscode-java-pack",
+        "vscjava.vscode-java-test",
+        "vscjava.vscode-maven",
+        "vscjava.vscode-spring-boot-dashboard",
+        "vscjava.vscode-spring-initializr",
+        "renizumi.prompt-template-manager",
+        "redhat.vscode-xml",
+        "yzhang.markdown-all-in-one",
+        "mhutchie.git-graph",
+        "ms-ceintl.vscode-language-pack-ja",
+        "inferrinizzard.prettier-sql-vscode",
+        "vscode-icons-team.vscode-icons",
+        "streetsidesoftware.code-spell-checker",
+        "github.vscode-pull-request-github",
+        "dbaeumer.vscode-eslint",
+        "ms-playwright.playwright",
+    ]
+}
