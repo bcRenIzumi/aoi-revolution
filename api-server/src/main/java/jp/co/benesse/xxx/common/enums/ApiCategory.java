@@ -13,6 +13,21 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ApiCategory {
 
+    /** 社員系 */
+    EMPLOYEE("EM"),
+
+    /** 企業系 */
+    COMPANY("CP"),
+
+    /** PC環境系 */
+    PC("PC"),
+
+    /** 共通系 */
+    COMMON("CM"),
+
+    /** 申請系 */
+    APPLICATION("AP"),
+
     /** その他 */
     OTHER("OT");
 

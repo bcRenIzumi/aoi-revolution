@@ -16,6 +16,62 @@ import lombok.Getter;
 public enum ApiCode {
 
     /**************************************
+     * 社員系API
+     **************************************/
+
+    /** 社員一覧取得 */
+    EMPLOYEE_LIST_GET("社員一覧取得", ApiCategory.EMPLOYEE, "01", HttpMethod.GET),
+
+    /** 社員情報取得 */
+    EMPLOYEE_DETAIL_GET("社員情報取得", ApiCategory.EMPLOYEE, "02", HttpMethod.GET),
+
+    /**************************************
+     * 企業系API
+     **************************************/
+
+    /** 企業一覧取得 */
+    COMPANY_LIST_GET("企業一覧取得", ApiCategory.COMPANY, "01", HttpMethod.GET),
+
+    /** 拠点一覧取得 */
+    COMPANY_LOCATION_GET("拠点一覧取得", ApiCategory.COMPANY, "02", HttpMethod.GET),
+
+    /**************************************
+     * PC環境系API
+     **************************************/
+
+    /** ネットワーク情報一覧取得 */
+    PC_NETWORK_GET("ネットワーク情報一覧取得", ApiCategory.PC, "01", HttpMethod.GET),
+
+    /** PC機種一覧取得 */
+    PC_MODEL_GET("PC機種一覧取得", ApiCategory.PC, "02", HttpMethod.GET),
+
+    /**************************************
+     * 共通系API
+     **************************************/
+
+    /** 申請番号発番 */
+    COMMON_APPLICATION_NUMBER_POST("申請番号発番", ApiCategory.COMMON, "01", HttpMethod.POST),
+
+    /**************************************
+     * 申請系API
+     **************************************/
+
+    /** 申請情報本登録 */
+    APPLICATION_REGISTER_POST("申請情報本登録", ApiCategory.APPLICATION, "01", HttpMethod.POST),
+
+    /** 基本情報仮登録 */
+    APPLICATION_BASIC_POST("基本情報仮登録", ApiCategory.APPLICATION, "02", HttpMethod.POST),
+
+    /** ファイル仮登録 */
+    APPLICATION_FILE_POST("ファイル仮登録", ApiCategory.APPLICATION, "03", HttpMethod.POST),
+
+    /** PC申請仮登録 */
+    APPLICATION_PC_REQUEST_POST("PC申請仮登録", ApiCategory.APPLICATION, "04", HttpMethod.POST),
+
+    /** PC申請情報取得 */
+    APPLICATION_PC_REQUEST_GET("PC申請情報取得", ApiCategory.APPLICATION, "05", HttpMethod.GET),
+
+    /**************************************
      * その他API
      **************************************/
 
