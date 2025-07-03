@@ -124,12 +124,11 @@ export const formConfig1 = {
                     label: '上司から選択',
                     required: true,
                     placeholder: '上司を選択してください',
-                    options: [
-                        { value: 'tanaka', label: '田中 次郎（部長）' },
-                        { value: 'sato', label: '佐藤 花子（課長）' },
-                        { value: 'suzuki', label: '鈴木 一郎（係長）' },
-                        { value: 'other', label: 'その他' }
-                    ]
+                    apiUrl: '/api/secure/employee/list',
+                    selectedOptionProperties: {
+                        value: 'department',
+                        label: 'name'
+                    }
                 },
                 {
                     type: 'row',
