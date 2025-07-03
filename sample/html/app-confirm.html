@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC新規手配申請用-一元調達PC_DX現モデル申請</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+            --header-color: #8661c1;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            padding: 20px;
+        }
+
+        .header {
+            background-color: var(--header-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-icon {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .app-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 60px auto 0;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        .form-header {
+            background: var(--primary-color);
+            color: white;
+            padding: 24px;
+            text-align: center;
+        }
+
+        .form-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .form-subtitle {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+
+        .main-content {
+            padding: 32px;
+        }
+
+        .form-section {
+            margin-bottom: 32px;
+        }
+
+        .form-row {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            min-height: 40px;
+            padding: 12px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .form-row:last-child {
+            border-bottom: none;
+        }
+
+        .form-label {
+            width: 200px;
+            font-size: 14px;
+            color: var(--text-color);
+            font-weight: 600;
+            flex-shrink: 0;
+            padding-right: 16px;
+        }
+
+        .form-value {
+            flex: 1;
+            font-size: 14px;
+            color: var(--text-color);
+            line-height: 1.5;
+        }
+
+        .value-highlight {
+            background-color: #f0f9ff;
+            padding: 4px 8px;
+            border-radius: 4px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        .section-title:first-child {
+            margin-top: 0;
+        }
+
+        .required {
+            color: var(--error-color);
+            margin-left: 4px;
+        }
+
+        .button-group {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            padding: 32px;
+            border-top: 2px solid var(--border-color);
+            margin-top: 32px;
+        }
+
+        .btn {
+            padding: 12px 32px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            min-width: 120px;
+        }
+
+        .btn-secondary {
+            background-color: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #4b5563;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .readonly-field {
+            background-color: #f1f5f9;
+            color: #64748b;
+            cursor: not-allowed;
+        }
+
+        .btn-outline-primary {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 2px solid var(--primary-color);
+        }
+
+        .btn-outline-primary:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 0;
+            }
+
+            .header {
+                position: relative;
+            }
+
+            .container {
+                margin: 0;
+                border-radius: 0;
+            }
+
+            .main-content {
+                padding: 24px 20px;
+            }
+
+            .form-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+
+            .form-label {
+                width: 100%;
+                padding-right: 0;
+            }
+
+            .form-input {
+                width: 100%;
+            }
+
+            .form-value {
+                margin-top: 4px;
+            }
+
+            .value-highlight {
+                display: inline-block;
+                margin-bottom: 4px;
+            }
+
+            .button-group {
+                flex-direction: column;
+                padding: 24px 20px;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="app-icon">P</div>
+            <span class="app-title">Power Apps | 申請アプリAZ</span>
+        </div>
+        <div class="header-right">
+            <span class="user-info">川 見</span>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="form-header">
+            <div class="form-title">PC新規手配申請用-一元調達PC_DX現モデル申請</div>
+            <div class="form-subtitle">申請内容をご確認の上、送信ボタンを押してください</div>
+        </div>
+
+        <div class="main-content">
+            <div class="confirmation-content">
+                <h2 class="section-title">申請内容</h2>
+
+                <div class="form-row">
+                    <div class="form-label">申請番号</div>
+                    <div class="form-value">
+                        <span class="value-highlight">AOI2024/000001</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">氏名</div>
+                    <div class="form-value">川 見 太郎</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">部署</div>
+                    <div class="form-value">情報システム部</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">所属会社</div>
+                    <div class="form-value">株式会社ベネッセコーポレーション</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">メールアドレス</div>
+                    <div class="form-value">kawami@benesse.co.jp</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">社員番号</div>
+                    <div class="form-value">bc0109695</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請理由</div>
+                    <div class="form-value">新規入社</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請台数</div>
+                    <div class="form-value">
+                        <span class="value-highlight">1台</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請理由詳細</div>
+                    <div class="form-value">新規入社に伴うPC手配をお願いします。業務開始予定日は2024年4月1日です。</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請理由カテゴリ</div>
+                    <div class="form-value">新規入社</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請理由カテゴリ詳細</div>
+                    <div class="form-value">正社員</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">利用開始予定日</div>
+                    <div class="form-value">2024年4月1日</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">利用終了予定日</div>
+                    <div class="form-value">未定</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">申請者確認事項</div>
+                    <div class="form-value">承認済み</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">廃棄予定</div>
+                    <div class="form-value">なし</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">再利用</div>
+                    <div class="form-value">なし</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">設置場所</div>
+                    <div class="form-value">東京本社 5階 情報システム部</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">管理者設定</div>
+                    <div class="form-value">管理者権限なし</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">承認者</div>
+                    <div class="form-value">田中 太郎（部長）</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">緊急度</div>
+                    <div class="form-value">中</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">添付ファイル1</div>
+                    <div class="form-value">
+                        <span class="value-highlight">✅ 新規入社通知書.pdf (2.1MB)</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">添付ファイル2</div>
+                    <div class="form-value">
+                        <span class="value-highlight">✅ 申請書類.docx (1.8MB)</span>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">添付ファイル3</div>
+                    <div class="form-value">未添付</div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-label">備考</div>
+                    <div class="form-value">業務上必要なソフトウェアのインストールもお願いします。詳細は別途ご相談させていただきます。</div>
+                </div>
+
+                <div class="button-group">
+                    <button type="button" class="btn btn-secondary" onclick="goBack()">戻る</button>
+                    <button class="btn btn-outline-primary" onclick="saveDraft()">下書き保存</button>
+                    <button type="button" class="btn btn-primary" onclick="submitApplication()">申請</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 戻るボタン
+        function goBack() {
+            if (confirm('前のページに戻りますか？')) {
+                history.back();
+            }
+        }
+
+        // 修正するボタン
+        function editForm() {
+            if (confirm('申請内容を修正しますか？入力画面に戻ります。')) {
+                // 実際の実装では、適切なページに遷移
+                history.back();
+            }
+        }
+
+        // 送信ボタン
+        function submitApplication() {
+            if (confirm('申請内容を送信しますか？送信後は修正できません。')) {
+                // 送信処理のシミュレーション
+                const submitButton = document.querySelector('.btn-primary');
+                submitButton.textContent = '送信中...';
+                submitButton.disabled = true;
+                submitButton.style.backgroundColor = '#6b7280';
+
+                setTimeout(() => {
+                    alert('申請が正常に送信されました。\n申請番号: AOI2024/000001\n\n承認状況は申請一覧画面でご確認いただけます。');
+
+                    // 実際の実装では、完了画面に遷移または申請一覧に戻る
+                    submitButton.textContent = '送信完了';
+                    submitButton.style.backgroundColor = 'var(--success-color)';
+
+                    setTimeout(() => {
+                        // window.location.href = '/application-list';
+                        console.log('申請一覧画面に遷移');
+                    }, 1500);
+                }, 2000);
+            }
+        }
+
+        // 印刷機能（オプション）
+        function printConfirmation() {
+            window.print();
+        }
+
+        // ページ読み込み時の初期設定
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('PC申請確認画面が読み込まれました');
+        });
+
+        function saveDraft() {
+            // 添付ファイルの情報を収集
+            const attachedFiles = [];
+            document.querySelectorAll('.file-button.file-attached').forEach(button => {
+                if (button.fileData) {
+                    attachedFiles.push({
+                        fileName: button.fileData.file.name,
+                        fileSize: button.fileData.file.size,
+                        fileNumber: button.fileData.fileNumber
+                    });
+                }
+            });
+
+            // 下書きデータの作成
+            const draftData = {
+                timestamp: new Date().toISOString(),
+                attachedFiles: attachedFiles,
+                formType: 'PC新規手配申請'
+            };
+
+            // ローカルストレージに保存（実際の実装では、サーバーに送信）
+            localStorage.setItem('pc_application_draft', JSON.stringify(draftData));
+
+            // 保存完了のメッセージ
+            showSuccessMessage('下書きが保存されました');
+
+            // ボタンの表示を一時的に変更
+            const draftButton = event.target;
+            const originalText = draftButton.textContent;
+            draftButton.textContent = '保存完了';
+            draftButton.style.backgroundColor = '#16a34a';
+            draftButton.style.borderColor = '#16a34a';
+            draftButton.style.color = 'white';
+
+            setTimeout(() => {
+                draftButton.textContent = originalText;
+                draftButton.style.backgroundColor = '';
+                draftButton.style.borderColor = '';
+                draftButton.style.color = '';
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PC新規手配申請 - 申請完了</title>
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --secondary-color: #f8fafc;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+            --error-color: #dc2626;
+            --success-color: #16a34a;
+            --header-color: #8661c1;
+            --orange-color: #f97316;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Hiragino Sans', 'Yu Gothic UI', 'Meiryo UI', sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            background-color: var(--secondary-color);
+            min-height: 100vh;
+        }
+
+        .header {
+            background-color: var(--header-color);
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+        }
+
+        .app-icon {
+            background-color: var(--primary-color);
+            border-radius: 8px;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .app-title {
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .user-info {
+            font-size: 12px;
+            opacity: 0.9;
+        }
+
+        .main-container {
+            display: flex;
+            padding: 20px;
+            gap: 20px;
+            min-height: calc(100vh - 70px);
+        }
+
+        .content-area {
+            flex: 1;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 40px;
+            text-align: center;
+        }
+
+        .page-title {
+            background: var(--primary-color);
+            color: white;
+            padding: 16px 24px;
+            margin: -60px -40px 40px -40px;
+            width: calc(100% + 80px);
+            border-radius: 12px 12px 0 0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background-color: var(--orange-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.3);
+        }
+
+        .success-icon::before {
+            content: "✓";
+            color: white;
+            font-size: 40px;
+            font-weight: bold;
+        }
+
+        .completion-title {
+            font-size: 28px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 16px;
+        }
+
+        .completion-message {
+            font-size: 18px;
+            color: var(--text-color);
+            margin-bottom: 40px;
+        }
+
+        .action-button {
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 16px 32px;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-bottom: 16px;
+        }
+
+        .action-button:hover {
+            background-color: #1d4ed8;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .action-description {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .sidebar {
+            width: 300px;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            padding: 24px;
+        }
+
+        .sidebar-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .status-section {
+            margin-bottom: 24px;
+        }
+
+        .status-header {
+            background-color: #1f2937;
+            color: white;
+            padding: 8px 12px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 12px;
+        }
+
+        .status-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+        }
+
+        .status-item:last-child {
+            border-bottom: none;
+        }
+
+        .status-label {
+            color: var(--text-color);
+        }
+
+        .status-value {
+            color: #6b7280;
+        }
+
+        .status-badge {
+            background-color: var(--primary-color);
+            color: white;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        .approval-section {
+            background-color: #f8fafc;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .approval-header {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            margin-bottom: 12px;
+        }
+
+        .approval-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 0;
+            font-size: 13px;
+        }
+
+        .date-info {
+            font-size: 12px;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .main-container {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .sidebar {
+                width: 100%;
+                order: -1;
+            }
+
+            .content-area {
+                padding: 40px 20px;
+            }
+
+            .page-title {
+                margin: -40px -20px 30px -20px;
+                width: calc(100% + 40px);
+                padding: 12px 20px;
+                font-size: 16px;
+            }
+
+            .completion-title {
+                font-size: 24px;
+            }
+
+            .completion-message {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="app-icon">P</div>
+            <span class="app-title">Power Apps | 申請アプリA12</span>
+        </div>
+        <div class="header-right">
+            <span class="user-info">共有</span>
+        </div>
+    </div>
+
+    <div class="main-container">
+        <div class="content-area">
+            <div class="page-title">PC新規手配申請 一元調達PC_DX型モデル申請</div>
+
+            <div class="success-icon"></div>
+
+            <h1 class="completion-title">申請完了</h1>
+
+            <p class="completion-message">申請完了しました。</p>
+
+            <button class="action-button" onclick="goToApplicationList()">申請一覧を見る</button>
+
+            <p class="action-description">クリックすると申請一覧アプリが立ち上がります。</p>
+        </div>
+
+        <div class="sidebar">
+            <h2 class="sidebar-title">ステータス</h2>
+
+            <div class="status-section">
+                <div class="status-header">申請</div>
+                <div class="status-item">
+                    <span class="status-label">申請状況</span>
+                    <span class="status-badge">申請済</span>
+                </div>
+            </div>
+
+            <div class="status-section">
+                <div class="status-header">承認</div>
+                <div class="status-item">
+                    <span class="status-label">状況</span>
+                    <span class="status-value">申請済</span>
+                </div>
+                <div class="date-info">申請日：2024/07/09 13:17:57</div>
+            </div>
+
+            <div class="approval-section">
+                <div class="approval-header">1次上長承認</div>
+                <div class="approval-item">
+                    <span class="status-label">承認状況</span>
+                    <span class="status-badge">承認待</span>
+                </div>
+                <div class="approval-item">
+                    <span class="status-label">承認者：</span>
+                    <span class="status-value"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 申請一覧画面に遷移
+        function goToApplicationList() {
+            // 実際の実装では、申請一覧画面のURLに遷移
+            alert('申請一覧画面に遷移します。');
+            // window.location.href = '/application-list';
+            console.log('申請一覧画面に遷移');
+        }
+
+        // ページ読み込み時の初期設定
+        document.addEventListener('DOMContentLoaded', function () {
+            console.log('申請完了画面が読み込まれました');
+
+            // 申請完了のアニメーション効果
+            const successIcon = document.querySelector('.success-icon');
+            const title = document.querySelector('.completion-title');
+            const message = document.querySelector('.completion-message');
+
+            // フェードインアニメーション
+            setTimeout(() => {
+                successIcon.style.transform = 'scale(1.1)';
+                setTimeout(() => {
+                    successIcon.style.transform = 'scale(1)';
+                }, 200);
+            }, 300);
+
+            // 成功メッセージの表示アニメーション
+            setTimeout(() => {
+                title.style.opacity = '0';
+                title.style.transform = 'translateY(20px)';
+                title.style.transition = 'all 0.5s ease';
+
+                setTimeout(() => {
+                    title.style.opacity = '1';
+                    title.style.transform = 'translateY(0)';
+                }, 100);
+            }, 500);
+
+            setTimeout(() => {
+                message.style.opacity = '0';
+                message.style.transform = 'translateY(20px)';
+                message.style.transition = 'all 0.5s ease';
+
+                setTimeout(() => {
+                    message.style.opacity = '1';
+                    message.style.transform = 'translateY(0)';
+                }, 100);
+            }, 700);
+        });
+    </script>
+</body>
+</html>
