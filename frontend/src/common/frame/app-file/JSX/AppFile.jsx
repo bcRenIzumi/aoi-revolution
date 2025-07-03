@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
-import Header from '../../app-confirm/JSX/Header';
-import '../../App.css';
+import ButtonGroup from '../../../component/ButtonGroup';
+import Header from '../../../component/Header';
+import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppFile.css';
-import ButtonGroup from './ButtonGroup';
 import FileSection from './FileSection';
-import InfoSection from './InfoSection';
 import ServiceDescription from './ServiceDescription';
 
-const AppFile = () => {
+const AppFile = ({ headerConfig, infoConfig }) => {
     const [attachedFiles, setAttachedFiles] = useState({});
 
     const handleFileAttach = (fileNumber, file) => {
@@ -66,11 +65,11 @@ const AppFile = () => {
     return (
         <div className="app-file">
             <div className="container-large">
-                <Header />
+                <Header title={headerConfig?.title} description={headerConfig?.description} />
 
                 <div className="info-section">
                     <ServiceDescription />
-                    <InfoSection />
+                    <InfoSection infoConfig={infoConfig} />
                 </div>
 
                 <div className="main-content">
