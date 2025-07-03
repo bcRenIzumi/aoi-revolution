@@ -30,12 +30,23 @@ const FormField = ({
 
             // オプション形式に変換
             const formattedOptions = apiData.map(item => {
-                // 汎用的なマッピング：最初のプロパティをvalue、2番目をlabelとして使用
-                const keys = Object.keys(item);
-                return {
-                    value: item[keys[0]], // 最初のプロパティ（例：companyId）
-                    label: item[keys[1]] || item[keys[0]] // 2番目のプロパティ（例：companyName）、なければ最初のプロパティ
-                };
+                // selectedOptionPropertiesが指定されている場合はそれを使用、なければデフォルト動作
+                if (field.selectedOptionProperties) {
+                    const valueProperty = field.selectedOptionProperties.value;
+                    const labelProperty = field.selectedOptionProperties.label;
+                    return {
+                        value: item[valueProperty] || '',
+                        label: item[labelProperty] || ''
+                    };
+                } else {
+                    // デフォルト動作：1番目のプロパティをvalueとlabelの両方に使用
+                    const keys = Object.keys(item);
+                    const labelValue = item[keys[0]] || '';
+                    return {
+                        value: labelValue,
+                        label: labelValue
+                    };
+                }
             });
 
             setOptions(formattedOptions);
@@ -88,8 +99,8 @@ const FormField = ({
             case 'select':
                 return (
                     <select {...commonProps}>
-                        {options.map(option => (
-                            <option key={option.value} value={option.value}>
+                        {options.map((option, index) => (
+                            <option key={`${option.value || 'empty'}-${index}`} value={option.value}>
                                 {option.label}
                             </option>
                         ))}
