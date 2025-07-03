@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import '../../App.css';
 import ApplicationForm from './ApplicationForm';
 import ButtonGroup from './ButtonGroup';
 import Header from './Header';

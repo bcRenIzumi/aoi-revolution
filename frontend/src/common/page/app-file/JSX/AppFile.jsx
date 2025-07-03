@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import Header from '../../app-confirm/JSX/Header';
-import '../../App.css';
 import '../CSS/AppFile.css';
 import ButtonGroup from './ButtonGroup';
 import FileSection from './FileSection';

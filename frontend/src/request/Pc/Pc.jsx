@@ -1,14 +1,14 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
+import AppBasic from './app-basic/JSX/AppBasic'
+import AppComplete from './app-complete/JSX/AppComplete'
+import AppConfirm from './app-confirm/JSX/AppConfirm'
+import AppDetail from './app-detail/JSX/AppDetail'
+import AppFile from './app-file/JSX/AppFile'
 import './App.css'
-import AppBasic from './common/page/app-basic/JSX/AppBasic'
-import AppComplete from './common/page/app-complete/JSX/AppComplete'
-import AppConfirm from './common/page/app-confirm/JSX/AppConfirm'
-import AppDetail from './common/page/app-detail/JSX/AppDetail'
-import AppFile from './common/page/app-file/JSX/AppFile'
 
 function App() {
     return (
-        <Router basename="/aoi">
+        <Router basename="/sample-vite/dist">
             <Routes>
                 <Route path="/pc/app-basic" element={<AppBasic />} />
                 <Route path="/pc/app-file" element={<AppFile />} />
