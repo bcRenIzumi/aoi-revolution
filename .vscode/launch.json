@@ -1,0 +1,14 @@
+{
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Spring Boot-Application<final-production>",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "mainClass": "jp.co.benesse.fy25.training.spring.Application",
+            "projectName": "final-production",
+            "args": "",
+            "envFile": "${workspaceFolder}/.env"
+        }
+    ]
+}
