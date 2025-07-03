@@ -1,0 +1,24 @@
+post:
+  tags:
+    - 申請系（AP）
+  summary: 申請情報本登録API
+  description: 申請情報を本登録する
+  parameters:
+    - name: applicationNumber
+      in: path
+      required: true
+      description: 申請番号
+      schema:
+        type: string
+        example: "A202401010001"
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
