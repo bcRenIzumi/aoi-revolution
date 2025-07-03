@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
-import Header from '../../app-confirm/JSX/Header';
+import ButtonGroup from '../../../component/ButtonGroup';
+import Header from '../../../component/Header';
+import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppFile.css';
-import ButtonGroup from './ButtonGroup';
 import FileSection from './FileSection';
-import InfoSection from './InfoSection';
 import ServiceDescription from './ServiceDescription';
 
 const AppFile = () => {

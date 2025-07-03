@@ -1,9 +1,9 @@
 import React from 'react';
+import ButtonGroup from '../../../component/ButtonGroup';
+import Header from '../../../component/Header';
+import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppConfirm.css';
-import ButtonGroup from './ButtonGroup';
 import ConfirmationContent from './ConfirmationContent';
-import Header from './Header';
-import InfoSection from './InfoSection';
 
 const AppConfirm = () => {
     const handleGoBack = () => {

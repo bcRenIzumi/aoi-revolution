@@ -1,22 +1,12 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import AppBasic from './common/page/app-basic/JSX/AppBasic'
-import AppComplete from './common/page/app-complete/JSX/AppComplete'
-import AppConfirm from './common/page/app-confirm/JSX/AppConfirm'
-import AppDetail from './common/page/app-detail/JSX/AppDetail'
-import AppFile from './common/page/app-file/JSX/AppFile'
+import Pc from './request/Pc/Pc'
 
 function App() {
     return (
         <Router basename="/aoi">
             <Routes>
-                <Route path="/pc/app-basic" element={<AppBasic />} />
-                <Route path="/pc/app-file" element={<AppFile />} />
-                <Route path="/pc/app-confirm" element={<AppConfirm />} />
-                <Route path="/pc/app-complete" element={<AppComplete />} />
-                <Route path="/pc/app-detail" element={<AppDetail />} />
-                {/* デフォルトルート - /pc/app-basicにリダイレクト */}
-                <Route path="/" element={<AppBasic />} />
+                <Route path="/pc/*" element={<Pc />} />
             </Routes>
         </Router>
     )

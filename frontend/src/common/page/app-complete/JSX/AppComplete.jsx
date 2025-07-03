@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
+import Header from '../../../component/Header';
 import '../CSS/AppComplete.css';
 import CompletionContent from './CompletionContent';
-import Header from './Header';
 import StatusSidebar from './StatusSidebar';
 
 const AppComplete = () => {

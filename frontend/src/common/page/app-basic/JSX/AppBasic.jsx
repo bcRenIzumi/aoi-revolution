@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
+import ButtonGroup from '../../../component/ButtonGroup';
+import Header from '../../../component/Header';
+import InfoSection from '../../../component/InfoSection';
 import ApplicationForm from './ApplicationForm';
-import ButtonGroup from './ButtonGroup';
-import Header from './Header';
-import InfoSection from './InfoSection';
 
 const AppBasic = () => {
     const [formData, setFormData] = useState({

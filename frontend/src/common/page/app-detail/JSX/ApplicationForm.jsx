@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
-import ButtonGroup from './ButtonGroup';
+import React, { forwardRef, useState } from 'react';
 
-const ApplicationForm = () => {
+const ApplicationForm = forwardRef(({ onSubmit, onDraftSave }, ref) => {
     const [formData, setFormData] = useState({
         // 機器情報
         deviceManagementCompany: '',
@@ -52,14 +51,18 @@ const ApplicationForm = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log('Form submitted:', formData);
-        // ここで実際の送信処理を実装
+        onSubmit(formData);
     };
 
     const handleDraftSave = () => {
-        console.log('Draft saved:', formData);
-        // ここで下書き保存処理を実装
+        onDraftSave(formData);
     };
+
+    // 外部からフォーム送信とドラフト保存をトリガーできるように関数を公開
+    React.useImperativeHandle(ref, () => ({
+        submitForm: () => handleSubmit({ preventDefault: () => { } }),
+        saveAsDraft: () => handleDraftSave()
+    }));
 
     return (
         <form id="applicationForm" onSubmit={handleSubmit}>
@@ -497,10 +500,8 @@ const ApplicationForm = () => {
                     <div className="description">PCに貼付の管理番号シールを参照ください</div>
                 </div>
             </div>
-
-            <ButtonGroup onDraftSave={handleDraftSave} onSubmit={handleSubmit} />
         </form>
     );
-};
+});
 
 export default ApplicationForm; 
