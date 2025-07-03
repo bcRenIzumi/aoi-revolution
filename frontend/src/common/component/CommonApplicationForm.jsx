@@ -1,29 +1,75 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react';
+import React, { forwardRef, useEffect, useImperativeHandle, useMemo, useState } from 'react';
+import { useApplication } from '../../context/ApplicationContext';
 import FormField from './FormField';
 
 const CommonApplicationForm = forwardRef(({
     formConfig,
     onSubmit,
     onDraftSave,
-    initialData = {}
+    initialData = {},
+    formType = 'basic' // 'basic' or 'detail'
 }, ref) => {
-    const [formData, setFormData] = useState(() => {
-        const initialFormData = {};
+    const { basicForm, detailForm, updateBasicForm, updateDetailForm } = useApplication();
+
+    // Contextから初期データを取得
+    const contextData = formType === 'basic' ? basicForm : detailForm;
+
+    // 初期フォームデータを生成（メモ化）
+    const initialFormData = useMemo(() => {
+        const formData = {};
         formConfig.sections.forEach(section => {
             section.fields.forEach(field => {
                 if (field.type === 'row') {
                     field.fields.forEach(rowField => {
-                        initialFormData[rowField.name] = initialData[rowField.name] || rowField.defaultValue || '';
+                        formData[rowField.name] =
+                            contextData[rowField.name] ||
+                            initialData[rowField.name] ||
+                            rowField.defaultValue || '';
                     });
                 } else {
-                    initialFormData[field.name] = initialData[field.name] || field.defaultValue || '';
+                    formData[field.name] =
+                        contextData[field.name] ||
+                        initialData[field.name] ||
+                        field.defaultValue || '';
                 }
             });
         });
-        return initialFormData;
-    });
+        return formData;
+    }, [formConfig, contextData, initialData]);
 
+    const [formData, setFormData] = useState(initialFormData);
     const [errors, setErrors] = useState({});
+    const [isInitialized, setIsInitialized] = useState(false);
+
+    // 初期化完了後のみContextを更新
+    useEffect(() => {
+        if (!isInitialized) {
+            setIsInitialized(true);
+            return;
+        }
+
+        const timeoutId = setTimeout(() => {
+            if (formType === 'basic') {
+                updateBasicForm(formData);
+            } else {
+                updateDetailForm(formData);
+            }
+        }, 300); // debounce時間を少し延長
+
+        return () => clearTimeout(timeoutId);
+    }, [formData, formType, updateBasicForm, updateDetailForm, isInitialized]);
+
+    // Contextデータが変更された時にローカル状態を更新
+    useEffect(() => {
+        if (isInitialized) {
+            setFormData(prevFormData => {
+                const needsUpdate = Object.keys(contextData).some(
+                    key => contextData[key] !== prevFormData[key]
+                );
+                return needsUpdate ? { ...prevFormData, ...contextData } : prevFormData;
+            });
+        }
+    }, [contextData, isInitialized]);
 
     const handleInputChange = (name, value) => {
         setFormData(prev => ({

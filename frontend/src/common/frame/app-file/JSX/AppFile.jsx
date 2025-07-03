@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useApplication } from '../../../../context/ApplicationContext';
 import ButtonGroup from '../../../component/ButtonGroup';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
@@ -7,21 +8,28 @@ import FileSection from './FileSection';
 import ServiceDescription from './ServiceDescription';
 
 const AppFile = ({ headerConfig, infoConfig, pageNumber }) => {
-    const [attachedFiles, setAttachedFiles] = useState({});
+    const { fileData, updateFileData } = useApplication();
+    const [attachedFiles, setAttachedFiles] = useState(fileData);
+
+    // Contextが更新されたらローカル状態も更新
+    useEffect(() => {
+        setAttachedFiles(fileData);
+    }, [fileData]);
 
     const handleFileAttach = (fileNumber, file) => {
-        setAttachedFiles(prev => ({
-            ...prev,
+        const newAttachedFiles = {
+            ...attachedFiles,
             [fileNumber]: file
-        }));
+        };
+        setAttachedFiles(newAttachedFiles);
+        updateFileData(newAttachedFiles);
     };
 
     const handleFileRemove = (fileNumber) => {
-        setAttachedFiles(prev => {
-            const newFiles = { ...prev };
-            delete newFiles[fileNumber];
-            return newFiles;
-        });
+        const newFiles = { ...attachedFiles };
+        delete newFiles[fileNumber];
+        setAttachedFiles(newFiles);
+        updateFileData(newFiles);
     };
 
     const handleSaveDraft = () => {
@@ -39,8 +47,10 @@ const AppFile = ({ headerConfig, infoConfig, pageNumber }) => {
         console.log('ファイル情報が下書き保存されました');
     };
 
+    // ファイル選択の必須チェックを削除し、次のページへの遷移はButtonGroupに任せる
     const handleSubmit = () => {
         console.log('ファイル情報を送信:', attachedFiles);
+        // ButtonGroupが自動的に次のページに遷移する
     };
 
     return (

@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useApplication } from '../../../../context/ApplicationContext';
 import ButtonGroup from '../../../component/ButtonGroup';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
@@ -6,9 +7,22 @@ import '../CSS/AppConfirm.css';
 import ConfirmationContent from './ConfirmationContent';
 
 const AppConfirm = ({ headerConfig, infoConfig, basicFormConfig, formConfig, pageNumber }) => {
-    const handleSubmitApplication = () => {
-        console.log('申請を送信しました');
-        // 申請送信処理をここに実装
+    const { submitApplication } = useApplication();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmitApplication = async () => {
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+            await submitApplication();
+            console.log('申請が正常に送信されました');
+        } catch (error) {
+            console.error('申請送信でエラーが発生しました:', error);
+            alert('申請送信でエラーが発生しました。もう一度お試しください。');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
 
     const handleSaveDraft = () => {
