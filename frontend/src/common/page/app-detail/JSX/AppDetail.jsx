@@ -1,9 +1,10 @@
 import React, { useRef } from 'react';
 import ButtonGroup from '../../../component/ButtonGroup';
+import CommonApplicationForm from '../../../component/CommonApplicationForm';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
+import { appDetailFormConfig } from '../config/appDetailFormConfig';
 import '../CSS/AppDetail.css';
-import ApplicationForm from './ApplicationForm';
 
 const AppDetail = () => {
     const formRef = useRef();
@@ -35,8 +36,9 @@ const AppDetail = () => {
             <Header />
             <div className="form-container">
                 <InfoSection />
-                <ApplicationForm
+                <CommonApplicationForm
                     ref={formRef}
+                    formConfig={appDetailFormConfig}
                     onSubmit={handleFormSubmit}
                     onDraftSave={handleDraftSave}
                 />
