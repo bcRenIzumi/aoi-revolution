@@ -1,7 +1,7 @@
 get:
   tags:
     - 企業系（CP）
-  summary: 企業一覧取得API
+  summary: CP01R_企業一覧取得API
   description: 企業の一覧情報を取得する
   responses:
     "200":

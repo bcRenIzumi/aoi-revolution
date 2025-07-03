@@ -1,7 +1,7 @@
 get:
   tags:
     - 社員系（EM）
-  summary: 社員一覧取得API
+  summary: EM01R_社員一覧取得API
   description: 社員の一覧情報を取得する
   responses:
     "200":

@@ -27,8 +27,8 @@ info:
     連番2桁＋HTTPメソッドとAPI名を`_`で結合したものとする。
 
     HTTPメソッドは、`GET`, `POST`, `PUT`, `DELETE`のいずれかを使用し、以下の対応付けとする。
-    - GET: 取得（C）
-    - POST: 登録（R）
+    - GET: 取得（R）
+    - POST: 登録（C）
     - PUT: 更新（U）
     - DELETE: 削除（D）
 
@@ -47,17 +47,339 @@ servers:
   - url: http://localhost:8080
     description: 開発環境
 tags:
-  - name: 認証（AT）
-    description: 認証機能
-  - name: その他（OT）
-    description: システム共通機能
+  - name: 社員系（EM）
+    description: 社員情報の参照や管理に関するAPI
+  - name: 企業系（CP）
+    description: 企業情報や拠点情報の参照に関するAPI
+  - name: PC環境系（PC）
+    description: PCやネットワーク環境に関するAPI
+  - name: 共通系（CM）
+    description: 共通機能を提供するAPI
+  - name: 申請系（AP）
+    description: PC申請に関する登録・参照を行うAPI
 paths:
-  /open/auth/register:
+  /secure/employee/list:
+    get:
+      tags:
+        - 社員系（EM）
+      summary: EM01R_社員一覧取得API
+      description: 社員の一覧情報を取得する
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            name:
+                              type: string
+                              description: 氏名
+                              example: 山田太郎
+                            companyName:
+                              type: string
+                              description: 企業名
+                              example: 株式会社XXX
+                            department:
+                              type: string
+                              description: 部署
+                              example: IT部
+                          required:
+                            - name
+                            - companyName
+                            - department
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/employee/detail:
+    get:
+      tags:
+        - 社員系（EM）
+      summary: EM02R_社員情報取得API
+      description: 指定した社員の情報を取得する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 社員ID
+          schema:
+            type: string
+            example: E0001
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          name:
+                            type: string
+                            description: 氏名
+                            example: 山田太郎
+                          companyName:
+                            type: string
+                            description: 企業名
+                            example: 株式会社XXX
+                          department:
+                            type: string
+                            description: 部署
+                            example: IT部
+                        required:
+                          - name
+                          - companyName
+                          - department
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/company/list:
+    get:
+      tags:
+        - 企業系（CP）
+      summary: CP01R_企業一覧取得API
+      description: 企業の一覧情報を取得する
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            companyId:
+                              type: string
+                              description: 企業ID
+                              example: C0001
+                            companyName:
+                              type: string
+                              description: 企業名
+                              example: 株式会社XXX
+                          required:
+                            - companyId
+                            - companyName
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/company/location:
+    get:
+      tags:
+        - 企業系（CP）
+      summary: CP02R_拠点一覧取得API
+      description: 該当企業の拠点一覧情報を取得する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 企業ID
+          schema:
+            type: string
+            example: C0001
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            locationId:
+                              type: string
+                              description: 拠点ID
+                              example: L0001
+                            locationName:
+                              type: string
+                              description: 拠点名
+                              example: 本社
+                          required:
+                            - locationId
+                            - locationName
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /open/pc/network:
+    get:
+      tags:
+        - PC環境系（PC）
+      summary: PC01R_ネットワーク情報一覧取得API
+      description: ネットワーク環境の一覧情報を取得する
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            networkEnvId:
+                              type: string
+                              description: ネットワーク環境ID
+                              example: N0001
+                            networkEnvName:
+                              type: string
+                              description: ネットワーク環境名
+                              example: 社内LAN
+                          required:
+                            - networkEnvId
+                            - networkEnvName
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /open/pc/model:
+    get:
+      tags:
+        - PC環境系（PC）
+      summary: PC02R_PC機種一覧取得API
+      description: PC機種の一覧情報を取得する
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: array
+                        items:
+                          type: object
+                          properties:
+                            pcModelId:
+                              type: string
+                              description: PC機種ID
+                              example: P0001
+                            pcModelName:
+                              type: string
+                              description: PC機種名
+                              example: ThinkPad X1 Carbon
+                          required:
+                            - pcModelId
+                            - pcModelName
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/common/application-number:
     post:
       tags:
-        - 認証（AT）
-      summary: 01C_認証登録API
-      description: 認証登録を行うAPI
+        - 共通系（CM）
+      summary: CM01C_申請番号発番API
+      description: 申請番号を発番する
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/BaseResponse'
+                  - type: object
+                    properties:
+                      data:
+                        type: object
+                        properties:
+                          applicationNumber:
+                            type: string
+                            description: 申請番号
+                            example: A202401010001
+                        required:
+                          - applicationNumber
+                    required:
+                      - data
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/application/register:
+    post:
+      tags:
+        - 申請系（AP）
+      summary: AP01C_申請情報本登録API
+      description: 申請情報を本登録する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 申請番号
+          schema:
+            type: string
+            example: A202401010001
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/application/basic:
+    post:
+      tags:
+        - 申請系（AP）
+      summary: AP02C_基本情報仮登録API
+      description: 基本情報を仮登録する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 申請番号
+          schema:
+            type: string
+            example: A202401010001
       requestBody:
         description: リクエストボディ
         required: true
@@ -66,33 +388,28 @@ paths:
             schema:
               type: object
               properties:
-                lineUserId:
-                  type: string
-                  example: U8189cf6745fc0d808977bdb0b9f22995
-                  description: LINEユーザーID
-                  minLength: 33
-                  maxLength: 33
-                cmnCstNo:
-                  type: string
-                  example: '1234567890'
-                  description: 共通顧客番号
-                  minLength: 10
-                  maxLength: 10
-                password:
-                  type: string
-                  example: password
-                  description: パスワード
-                  pattern: ^(?!.*?(.)\1{2})(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z!#$%&,\-\./=\?@\[\]\^_\{\}~]{8,32}$
-                nickname:
-                  type: string
-                  example: テストユーザー
-                  description: ニックネーム
-                  maxLength: 12
+                basicInfo:
+                  type: object
+                  description: 基本情報
+                  properties:
+                    employeeId:
+                      type: string
+                      description: 社員ID
+                      example: E0001
+                    companyId:
+                      type: string
+                      description: 企業ID
+                      example: C0001
+                    locationId:
+                      type: string
+                      description: 拠点ID
+                      example: L0001
+                  required:
+                    - employeeId
+                    - companyId
+                    - locationId
               required:
-                - lineUserId
-                - cmnCstNo
-                - password
-                - nickname
+                - basicInfo
       responses:
         '200':
           description: 成功時の動き
@@ -104,72 +421,118 @@ paths:
           $ref: '#/components/responses/BadRequestError'
         '500':
           $ref: '#/components/responses/InternalServerError'
-  /open/auth/users:
-    get:
-      tags:
-        - 認証（AT）
-      summary: 02R_認証会員一覧取得API
-      description: 認証済み会員一覧を取得するAPI
-      parameters:
-        - name: lineUserId
-          in: query
-          required: true
-          schema:
-            type: string
-            minLength: 33
-            maxLength: 33
-          example: U8189cf6745fc0d808977bdb0b9f22995
-          description: LINEユーザーID
-      responses:
-        '200':
-          description: 成功時の動き
-          content:
-            application/json:
-              schema:
-                allOf:
-                  - $ref: '#/components/schemas/BaseResponse'
-                  - type: object
-                    description: 認証会員一覧取得APIのレスポンスDTO
-                    properties:
-                      lineUserId:
-                        type: string
-                        example: U8189cf6745fc0d808977bdb0b9f22995
-                        description: LINEユーザーID
-                      users:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                              example: '1'
-                              description: 認証ユーザーID
-                            cmnCstNo:
-                              type: string
-                              example: '1234567890'
-                              description: 共通顧客番号
-                          required:
-                            - id
-                            - cmnCstNo
-        '400':
-          $ref: '#/components/responses/BadRequestError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
+  /secure/application/file:
     post:
       tags:
-        - 認証（AT）
-      summary: 02C_認証会員取得API
-      description: 認証済み会員一覧を取得するAPI
+        - 申請系（AP）
+      summary: AP03C_ファイル仮登録API
+      description: ファイルを仮登録する
       parameters:
-        - name: lineUserId
+        - name: id
           in: query
           required: true
+          description: 申請番号
           schema:
             type: string
-            minLength: 33
-            maxLength: 33
-          example: U8189cf6745fc0d808977bdb0b9f22995
-          description: LINEユーザーID
+            example: A202401010001
+      requestBody:
+        description: リクエストボディ
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                file:
+                  type: string
+                  format: binary
+                  description: アップロードファイル
+              required:
+                - file
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+  /secure/application/pc:
+    post:
+      tags:
+        - 申請系（AP）
+      summary: AP04C_PC申請仮登録API
+      description: PC申請を仮登録する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 申請番号
+          schema:
+            type: string
+            example: A202401010001
+      requestBody:
+        description: リクエストボディ
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pcRequest:
+                  type: object
+                  description: PC申請情報
+                  properties:
+                    pcModelId:
+                      type: string
+                      description: PC機種ID
+                      example: P0001
+                    networkEnvId:
+                      type: string
+                      description: ネットワーク環境ID
+                      example: N0001
+                    installationType:
+                      type: string
+                      description: 導入区分
+                      example: '1'
+                    deliveryDate:
+                      type: string
+                      description: 納品希望日
+                      example: '2024-01-31'
+                  required:
+                    - pcModelId
+                    - networkEnvId
+                    - installationType
+                    - deliveryDate
+              required:
+                - pcRequest
+      responses:
+        '200':
+          description: 成功時の動き
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BaseResponse'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+    get:
+      tags:
+        - 申請系（AP）
+      summary: AP05R_PC申請情報取得API
+      description: PC申請情報を取得する
+      parameters:
+        - name: id
+          in: query
+          required: true
+          description: 申請番号
+          schema:
+            type: string
+            example: A202401010001
       responses:
         '200':
           description: 成功時の動き
@@ -179,58 +542,39 @@ paths:
                 allOf:
                   - $ref: '#/components/schemas/BaseResponse'
                   - type: object
-                    description: 認証会員一覧取得APIのレスポンスDTO
                     properties:
-                      lineUserId:
-                        type: string
-                        example: U8189cf6745fc0d808977bdb0b9f22995
-                        description: LINEユーザーID
-                      users:
-                        type: array
-                        items:
-                          type: object
-                          properties:
-                            id:
-                              type: string
-                              example: '1'
-                              description: 認証ユーザーID
-                            cmnCstNo:
-                              type: string
-                              example: '1234567890'
-                              description: 共通顧客番号
-                            nickname:
-                              type: string
-                              example: テストユーザー
-                              description: ニックネーム
-                            isExpired:
-                              type: boolean
-                              example: false
-                              description: 認証期限切れフラグ（true：期限切れ、false：有効）
-                          required:
-                            - id
-                            - cmnCstNo
-                            - nickname
-                            - isExpired
+                      data:
+                        type: object
+                        properties:
+                          pcRequest:
+                            type: object
+                            description: PC申請情報
+                            properties:
+                              pcModelId:
+                                type: string
+                                description: PC機種ID
+                                example: P0001
+                              networkEnvId:
+                                type: string
+                                description: ネットワーク環境ID
+                                example: N0001
+                              installationType:
+                                type: string
+                                description: 導入区分
+                                example: '1'
+                              deliveryDate:
+                                type: string
+                                description: 納品希望日
+                                example: '2024-01-31'
+                            required:
+                              - pcModelId
+                              - networkEnvId
+                              - installationType
+                              - deliveryDate
+                        required:
+                          - pcRequest
                     required:
-                      - lineUserId
-                      - users
-        '400':
-          $ref: '#/components/responses/BadRequestError'
-        '500':
-          $ref: '#/components/responses/InternalServerError'
-  /open/other/health-check:
-    get:
-      tags:
-        - その他（OT）
-      summary: 01R_ヘルスチェックAPI
-      description: サーバーの状態を確認するAPI
-      responses:
-        '200':
-          description: 成功時の動き
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/BaseResponse'
+                      - data
         '400':
           $ref: '#/components/responses/BadRequestError'
         '500':

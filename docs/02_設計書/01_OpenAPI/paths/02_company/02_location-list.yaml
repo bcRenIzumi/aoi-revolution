@@ -1,11 +1,11 @@
 get:
   tags:
     - 企業系（CP）
-  summary: 拠点一覧取得API
+  summary: CP02R_拠点一覧取得API
   description: 該当企業の拠点一覧情報を取得する
   parameters:
-    - name: companyId
-      in: path
+    - name: id
+      in: query
       required: true
       description: 企業ID
       schema:

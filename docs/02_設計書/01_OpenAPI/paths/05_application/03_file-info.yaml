@@ -1,11 +1,11 @@
 post:
   tags:
     - 申請系（AP）
-  summary: ファイル仮登録API
+  summary: AP03C_ファイル仮登録API
   description: ファイルを仮登録する
   parameters:
-    - name: applicationNumber
-      in: path
+    - name: id
+      in: query
       required: true
       description: 申請番号
       schema:

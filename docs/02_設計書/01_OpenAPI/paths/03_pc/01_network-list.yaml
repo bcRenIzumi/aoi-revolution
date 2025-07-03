@@ -1,7 +1,7 @@
 get:
   tags:
     - PC環境系（PC）
-  summary: ネットワーク情報一覧取得API
+  summary: PC01R_ネットワーク情報一覧取得API
   description: ネットワーク環境の一覧情報を取得する
   responses:
     "200":

@@ -1,11 +1,11 @@
 post:
   tags:
     - 申請系（AP）
-  summary: 基本情報仮登録API
+  summary: AP02C_基本情報仮登録API
   description: 基本情報を仮登録する
   parameters:
-    - name: applicationNumber
-      in: path
+    - name: id
+      in: query
       required: true
       description: 申請番号
       schema:

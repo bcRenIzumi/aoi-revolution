@@ -1,7 +1,7 @@
 post:
   tags:
     - 共通系（CM）
-  summary: 申請番号発番API
+  summary: CM01C_申請番号発番API
   description: 申請番号を発番する
   responses:
     "200":

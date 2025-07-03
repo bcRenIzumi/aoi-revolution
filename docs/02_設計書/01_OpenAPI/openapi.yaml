@@ -64,13 +64,13 @@ paths:
   # 社員系（EM）カテゴリ
   /secure/employee/list:
     $ref: "./paths/01_employee/01_employee-list.yaml"
-  /secure/employee/{employeeId}:
+  /secure/employee/detail:
     $ref: "./paths/01_employee/02_employee-detail.yaml"
 
   # 企業系（CP）カテゴリ
   /secure/company/list:
     $ref: "./paths/02_company/01_company-list.yaml"
-  /secure/company/{companyId}/location:
+  /secure/company/location:
     $ref: "./paths/02_company/02_location-list.yaml"
 
   # PC環境系（PC）カテゴリ
@@ -84,11 +84,11 @@ paths:
     $ref: "./paths/04_common/01_application-number.yaml"
 
   # 申請系（AP）カテゴリ
-  /secure/application/{applicationNumber}/register:
+  /secure/application/register:
     $ref: "./paths/05_application/01_application-register.yaml"
-  /secure/application/{applicationNumber}/basic:
+  /secure/application/basic:
     $ref: "./paths/05_application/02_basic-info.yaml"
-  /secure/application/{applicationNumber}/file:
+  /secure/application/file:
     $ref: "./paths/05_application/03_file-info.yaml"
-  /secure/application/{applicationNumber}/pc:
+  /secure/application/pc:
     $ref: "./paths/05_application/04_pc-request.yaml"

@@ -1,7 +1,7 @@
 get:
   tags:
     - PC環境系（PC）
-  summary: PC機種一覧取得API
+  summary: PC02R_PC機種一覧取得API
   description: PC機種の一覧情報を取得する
   responses:
     "200":

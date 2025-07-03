@@ -1,11 +1,11 @@
 post:
   tags:
     - 申請系（AP）
-  summary: 申請情報本登録API
+  summary: AP01C_申請情報本登録API
   description: 申請情報を本登録する
   parameters:
-    - name: applicationNumber
-      in: path
+    - name: id
+      in: query
       required: true
       description: 申請番号
       schema:

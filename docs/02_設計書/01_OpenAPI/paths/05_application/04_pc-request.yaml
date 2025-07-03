@@ -1,11 +1,11 @@
 post:
   tags:
     - 申請系（AP）
-  summary: PC申請仮登録API
+  summary: AP04C_PC申請仮登録API
   description: PC申請を仮登録する
   parameters:
-    - name: applicationNumber
-      in: path
+    - name: id
+      in: query
       required: true
       description: 申請番号
       schema:
@@ -31,7 +31,16 @@ post:
                   type: string
                   description: ネットワーク環境ID
                   example: "N0001"
-              required: [pcModelId, networkEnvId]
+                installationType:
+                  type: string
+                  description: 導入区分
+                  example: "1"
+                deliveryDate:
+                  type: string
+                  description: 納品希望日
+                  example: "2024-01-31"
+              required:
+                [pcModelId, networkEnvId, installationType, deliveryDate]
           required: [pcRequest]
   responses:
     "200":
@@ -48,11 +57,11 @@ post:
 get:
   tags:
     - 申請系（AP）
-  summary: PC申請情報取得API
+  summary: AP05R_PC申請情報取得API
   description: PC申請情報を取得する
   parameters:
-    - name: applicationNumber
-      in: path
+    - name: id
+      in: query
       required: true
       description: 申請番号
       schema:
@@ -83,7 +92,21 @@ get:
                             type: string
                             description: ネットワーク環境ID
                             example: "N0001"
-                        required: [pcModelId, networkEnvId]
+                          installationType:
+                            type: string
+                            description: 導入区分
+                            example: "1"
+                          deliveryDate:
+                            type: string
+                            description: 納品希望日
+                            example: "2024-01-31"
+                        required:
+                          [
+                            pcModelId,
+                            networkEnvId,
+                            installationType,
+                            deliveryDate,
+                          ]
                     required: [pcRequest]
                 required: [data]
     "400":

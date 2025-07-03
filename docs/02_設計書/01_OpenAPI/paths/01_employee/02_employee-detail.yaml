@@ -1,11 +1,11 @@
 get:
   tags:
     - 社員系（EM）
-  summary: 社員情報取得API
+  summary: EM02R_社員情報取得API
   description: 指定した社員の情報を取得する
   parameters:
-    - name: employeeId
-      in: path
+    - name: id
+      in: query
       required: true
       description: 社員ID
       schema:
