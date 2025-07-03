@@ -26,7 +26,7 @@ export const formConfig2 = {
                     label: '管理会社',
                     required: true,
                     placeholder: '管理会社を選択してください',
-                    apiUrl: '/api/management-companies'
+                    apiUrl: '/api/secure/company/list'
                 }
             ]
         },
