@@ -12,18 +12,37 @@ import { formConfig1 } from '../../../config/common/basicFormConfig'
 function ID_0002() {
     return (
         <Routes>
-            <Route path="page1" element={<AppBasic formConfig={formConfig1} headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
-            <Route path="page2" element={<AppDetail formConfig={formConfig2} headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
-            <Route path="page3" element={<AppFile headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
-            <Route path="page4" element={<AppConfirm
+            <Route path="basic" element={<AppBasic
+                formConfig={formConfig1}
+                headerConfig={headerConfig}
+                infoConfig={infoSectionConfig}
+                pageNumber={1}
+            />} />
+            <Route path="detail" element={<AppDetail
+                formConfig={formConfig2}
+                headerConfig={headerConfig}
+                infoConfig={infoSectionConfig}
+                pageNumber={2}
+            />} />
+            <Route path="file" element={<AppFile
+                headerConfig={headerConfig}
+                infoConfig={infoSectionConfig}
+                pageNumber={3}
+            />} />
+            <Route path="confirm" element={<AppConfirm
                 headerConfig={headerConfig}
                 infoConfig={infoSectionConfig}
                 basicFormConfig={formConfig1}
                 formConfig={formConfig2}
+                pageNumber={4}
             />} />
-            <Route path="page5" element={<AppComplete headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
-            {/* ルートアクセス時はpage1にリダイレクト */}
-            <Route path="/" element={<Navigate to="page1" replace />} />
+            <Route path="complete" element={<AppComplete
+                headerConfig={headerConfig}
+                infoConfig={infoSectionConfig}
+                pageNumber={5}
+            />} />
+            {/* ルートアクセス時はbasicにリダイレクト */}
+            <Route path="/" element={<Navigate to="basic" replace />} />
         </Routes>
     )
 }

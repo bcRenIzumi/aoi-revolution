@@ -5,7 +5,7 @@ import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppDetail.css';
 
-const AppDetail = ({ formConfig, headerConfig, infoConfig }) => {
+const AppDetail = ({ formConfig, headerConfig, infoConfig, pageNumber }) => {
     const formRef = useRef();
 
     const handleFormSubmit = (formData) => {
@@ -32,7 +32,11 @@ const AppDetail = ({ formConfig, headerConfig, infoConfig }) => {
 
     return (
         <div className="container">
-            <Header title={headerConfig?.title} description={headerConfig?.description} />
+            <Header
+                title={headerConfig?.title}
+                description={headerConfig?.description}
+                pageNumber={pageNumber}
+            />
             <div className="form-container">
                 <InfoSection infoConfig={infoConfig} />
                 <CommonApplicationForm
@@ -44,6 +48,8 @@ const AppDetail = ({ formConfig, headerConfig, infoConfig }) => {
                 <ButtonGroup
                     onDraftSave={handleDraftSaveClick}
                     onSubmit={handleSubmitClick}
+                    isConfirmPage={false}
+                    pageNumber={pageNumber}
                 />
             </div>
         </div>

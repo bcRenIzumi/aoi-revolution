@@ -5,57 +5,36 @@ import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppConfirm.css';
 import ConfirmationContent from './ConfirmationContent';
 
-const AppConfirm = ({ headerConfig, infoConfig, basicFormConfig, formConfig }) => {
-    const handleGoBack = () => {
-        if (window.confirm('前のページに戻りますか？')) {
-            window.history.back();
-        }
+const AppConfirm = ({ headerConfig, infoConfig, basicFormConfig, formConfig, pageNumber }) => {
+    const handleSubmitApplication = () => {
+        console.log('申請を送信しました');
+        // 申請送信処理をここに実装
     };
 
     const handleSaveDraft = () => {
-        // 下書きデータの作成
-        const draftData = {
-            timestamp: new Date().toISOString(),
-            formType: 'PC新規手配申請'
-        };
-
-        // ローカルストレージに保存
-        localStorage.setItem('pc_application_draft', JSON.stringify(draftData));
-
-        // 保存完了のメッセージ
-        alert('下書きが保存されました');
-    };
-
-    const handleSubmitApplication = () => {
-        if (window.confirm('申請内容を送信しますか？送信後は修正できません。')) {
-            // 送信処理のシミュレーション
-            const submitPromise = new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            });
-
-            submitPromise.then(() => {
-                alert('申請が正常に送信されました。\n申請番号: AOI2024/000001\n\n承認状況は申請一覧画面でご確認いただけます。');
-                console.log('申請一覧画面に遷移');
-            });
-        }
+        console.log('確認内容を下書き保存しました');
+        // 下書き保存処理をここに実装
     };
 
     return (
         <div className="app-confirm">
             <div className="container">
-                <Header title={headerConfig?.title} description={headerConfig?.description} />
-                <InfoSection infoConfig={infoConfig} />
+                <Header
+                    title={headerConfig?.title}
+                    description={headerConfig?.description}
+                    pageNumber={pageNumber}
+                />
+                <InfoSection config={infoConfig} />
                 <div className="main-content">
                     <ConfirmationContent
                         basicFormConfig={basicFormConfig}
                         formConfig={formConfig}
                     />
                     <ButtonGroup
-                        onGoBack={handleGoBack}
                         onSaveDraft={handleSaveDraft}
                         onSubmit={handleSubmitApplication}
+                        isConfirmPage={true}
+                        pageNumber={pageNumber}
                     />
                 </div>
             </div>

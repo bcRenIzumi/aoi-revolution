@@ -6,7 +6,7 @@ import '../CSS/AppFile.css';
 import FileSection from './FileSection';
 import ServiceDescription from './ServiceDescription';
 
-const AppFile = ({ headerConfig, infoConfig }) => {
+const AppFile = ({ headerConfig, infoConfig, pageNumber }) => {
     const [attachedFiles, setAttachedFiles] = useState({});
 
     const handleFileAttach = (fileNumber, file) => {
@@ -24,16 +24,6 @@ const AppFile = ({ headerConfig, infoConfig }) => {
         });
     };
 
-    const handleGoBack = () => {
-        if (Object.keys(attachedFiles).length > 0) {
-            if (window.confirm('入力内容が失われますが、前のページに戻りますか？')) {
-                window.history.back();
-            }
-        } else {
-            window.history.back();
-        }
-    };
-
     const handleSaveDraft = () => {
         const draftData = {
             timestamp: new Date().toISOString(),
@@ -46,30 +36,25 @@ const AppFile = ({ headerConfig, infoConfig }) => {
         };
 
         localStorage.setItem('pc_application_draft', JSON.stringify(draftData));
-        alert('下書きが保存されました');
+        console.log('ファイル情報が下書き保存されました');
     };
 
     const handleSubmit = () => {
-        const hasAnyFile = Object.keys(attachedFiles).length > 0;
-
-        if (!hasAnyFile) {
-            alert('少なくとも1つのファイルを選択してください。');
-            return;
-        }
-
-        if (window.confirm('申請内容を送信しますか？')) {
-            alert('申請が正常に送信されました。ありがとうございます。');
-        }
+        console.log('ファイル情報を送信:', attachedFiles);
     };
 
     return (
         <div className="app-file">
             <div className="container-large">
-                <Header title={headerConfig?.title} description={headerConfig?.description} />
+                <Header
+                    title={headerConfig.title}
+                    description={headerConfig.description}
+                    pageNumber={pageNumber}
+                />
 
                 <div className="info-section">
                     <ServiceDescription />
-                    <InfoSection infoConfig={infoConfig} />
+                    <InfoSection config={infoConfig} />
                 </div>
 
                 <div className="main-content">
@@ -80,9 +65,10 @@ const AppFile = ({ headerConfig, infoConfig }) => {
                     />
 
                     <ButtonGroup
-                        onGoBack={handleGoBack}
                         onSaveDraft={handleSaveDraft}
                         onSubmit={handleSubmit}
+                        isConfirmPage={false}
+                        pageNumber={pageNumber}
                     />
                 </div>
             </div>
