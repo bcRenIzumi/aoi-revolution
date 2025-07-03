@@ -9,7 +9,7 @@ import { formConfig2 } from '../../../config/app/ID_0001/formConfig2'
 import { headerConfig } from '../../../config/app/ID_0001/headerConfig'
 import { infoSectionConfig } from '../../../config/app/ID_0001/infoSectionConfig'
 
-function Pc() {
+function ID_0001() {
     return (
         <Routes>
             <Route path="page1" element={<AppBasic formConfig={formConfig1} headerConfig={headerConfig} infoConfig={infoSectionConfig} />} />
@@ -23,4 +23,4 @@ function Pc() {
     )
 }
 
-export default Pc
+export default ID_0001
