@@ -1,4 +1,4 @@
-export const appBasicFormConfig = {
+export const formConfig1 = {
     sections: [
         {
             key: 'basic-info',

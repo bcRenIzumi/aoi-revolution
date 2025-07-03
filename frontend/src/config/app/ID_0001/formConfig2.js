@@ -1,4 +1,4 @@
-export const appDetailFormConfig = {
+export const formConfig2 = {
     sections: [
         {
             key: 'device-info',

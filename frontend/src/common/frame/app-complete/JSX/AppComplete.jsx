@@ -4,7 +4,7 @@ import '../CSS/AppComplete.css';
 import CompletionContent from './CompletionContent';
 import StatusSidebar from './StatusSidebar';
 
-const AppComplete = () => {
+const AppComplete = ({ headerConfig }) => {
     // 申請一覧画面に遷移
     const goToApplicationList = () => {
         // 実際の実装では、申請一覧画面のURLに遷移
@@ -61,7 +61,7 @@ const AppComplete = () => {
 
     return (
         <div className="app-complete">
-            <Header />
+            <Header title={headerConfig?.title} description={headerConfig?.description} />
             <div className="main-container">
                 <CompletionContent onGoToApplicationList={goToApplicationList} />
                 <StatusSidebar />

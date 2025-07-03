@@ -1,13 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import ButtonGroup from '../../../component/ButtonGroup';
 import CommonApplicationForm from '../../../component/CommonApplicationForm';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
-import { appBasicFormConfig } from '../config/appBasicFormConfig';
+import '../CSS/AppBasic.css';
 
-const AppBasic = () => {
+const AppBasic = ({ formConfig, headerConfig, infoConfig }) => {
     const formRef = useRef();
-    const [errors, setErrors] = useState({});
 
     const handleFormSubmit = (formData) => {
         console.log('Form submitted:', formData);
@@ -33,12 +32,12 @@ const AppBasic = () => {
 
     return (
         <div className="container">
-            <Header />
+            <Header title={headerConfig?.title} description={headerConfig?.description} />
             <div className="form-container">
-                <InfoSection />
+                <InfoSection infoConfig={infoConfig} />
                 <CommonApplicationForm
                     ref={formRef}
-                    formConfig={appBasicFormConfig}
+                    formConfig={formConfig}
                     onSubmit={handleFormSubmit}
                     onDraftSave={handleDraftSave}
                 />

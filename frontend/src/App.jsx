@@ -1,6 +1,6 @@
 import { Route, BrowserRouter as Router, Routes } from 'react-router-dom'
 import './App.css'
-import Pc from './request/Pc/Pc'
+import Pc from './page/app/ID_0001/ID_0001'
 
 function App() {
     return (

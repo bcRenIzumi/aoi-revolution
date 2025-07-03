@@ -3,10 +3,9 @@ import ButtonGroup from '../../../component/ButtonGroup';
 import CommonApplicationForm from '../../../component/CommonApplicationForm';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
-import { appDetailFormConfig } from '../config/appDetailFormConfig';
 import '../CSS/AppDetail.css';
 
-const AppDetail = () => {
+const AppDetail = ({ formConfig, headerConfig, infoConfig }) => {
     const formRef = useRef();
 
     const handleFormSubmit = (formData) => {
@@ -33,12 +32,12 @@ const AppDetail = () => {
 
     return (
         <div className="container">
-            <Header />
+            <Header title={headerConfig?.title} description={headerConfig?.description} />
             <div className="form-container">
-                <InfoSection />
+                <InfoSection infoConfig={infoConfig} />
                 <CommonApplicationForm
                     ref={formRef}
-                    formConfig={appDetailFormConfig}
+                    formConfig={formConfig}
                     onSubmit={handleFormSubmit}
                     onDraftSave={handleDraftSave}
                 />
