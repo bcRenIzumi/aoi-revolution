@@ -14,6 +14,8 @@ CREATE TABLE T_FILE_INFO (
     file_size BIGINT NOT NULL,
     -- MIMEタイプ
     mime_type NVARCHAR(100) NOT NULL,
+    -- 有効フラグ
+    is_active BIT NOT NULL DEFAULT 1,
     -- 作成日時
     created_at DATETIME2 DEFAULT DATEADD(HOUR, 9, SYSUTCDATETIME()) NOT NULL,
     -- 更新日時
@@ -89,6 +91,16 @@ EXEC sp_addextendedproperty
     @level1name = N'T_FILE_INFO',
     @level2type = N'COLUMN',
     @level2name = N'mime_type';
+
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description',
+    @value = N'有効フラグ（1: 有効、0: 無効）',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'T_FILE_INFO',
+    @level2type = N'COLUMN',
+    @level2name = N'is_active';
 
 EXEC sp_addextendedproperty 
     @name = N'MS_Description',

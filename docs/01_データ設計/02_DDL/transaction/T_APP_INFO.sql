@@ -16,6 +16,8 @@ CREATE TABLE T_APP_INFO (
     approved_at DATETIME2,
     -- 却下日時
     rejected_at DATETIME2,
+    -- 有効フラグ
+    is_active BIT NOT NULL DEFAULT 1,
     -- 作成日時
     created_at DATETIME2 DEFAULT DATEADD(HOUR, 9, SYSUTCDATETIME()) NOT NULL,
     -- 更新日時
@@ -102,6 +104,16 @@ EXEC sp_addextendedproperty
     @level1name = N'T_APP_INFO',
     @level2type = N'COLUMN',
     @level2name = N'rejected_at';
+
+EXEC sp_addextendedproperty 
+    @name = N'MS_Description',
+    @value = N'有効フラグ（1: 有効、0: 無効）',
+    @level0type = N'SCHEMA',
+    @level0name = N'dbo',
+    @level1type = N'TABLE',
+    @level1name = N'T_APP_INFO',
+    @level2type = N'COLUMN',
+    @level2name = N'is_active';
 
 EXEC sp_addextendedproperty 
     @name = N'MS_Description',
