@@ -1,10 +1,13 @@
 ---
-alwaysApply: true
+alwaysApply: false
 ---
-
 # 原則
 
 このルールを参照した際は、「${ルール名}を参照しました」と報告すること
+
+## README
+
+「/frontend/README.md」を読み、フロントエンドの仕組みを把握してください。
 
 ## api
 
