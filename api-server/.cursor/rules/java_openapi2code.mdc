@@ -1,0 +1,244 @@
+---
+description: 
+globs: openapi.yaml
+alwaysApply: false
+---
+# OpenAPI仕様書からJavaコード自動生成ルール
+
+## 原則
+- 本ルールを適用する場合、「`java_openapi2code.mdc`を適用します」と出力する
+- 本ルールを適用する場合、以下のルールも同時に適用する
+  - `java_common.mdc`
+  - `java_javadoc.mdc`
+- OpenAPI仕様書（openapi.yaml）の定義をもとに、Javaのソースコードを自動生成する
+- 既存のプロジェクト構造と命名規則に従う
+
+## 基本設定
+- OpenAPI仕様書: インプットで取得
+- 生成先ベースパッケージ: `jp.co.benesse.xxx`
+
+## 前提ファイル更新ルール
+
+### 1. ApiCategoryとApiCodeの自動更新
+- 新しいAPIカテゴリが必要な場合、`ApiCategory.java`に自動追加
+- 新しいAPIコードが必要な場合、`ApiCode.java`に自動追加
+- カテゴリ命名規則: タグ名の英単語の先頭文字+最初の子音を大文字（例: USER → "US", OTHER → "OT"）
+- APIコード命名規則: `{FUNCTION}_{HTTP_METHOD}` (例: `USERS_GET`, `USERS_POST`)
+- ApiCodeのコード値は「カテゴリ識別子 + 連番 + CRUD種別」で自動生成される（例: "OT01R"）
+
+### 2. UrlConstantsの自動更新
+- 新しいURLパスを`UrlConstants.java`に自動追加
+- 命名規則: `{カテゴリ接頭辞}_{認証内外}_{機能名}` （認証内: `SECURE`、認証外: `OPEN`）
+
+## Controller生成ルール
+
+### 1. 生成場所とパッケージ
+- 生成場所: `api-server/src/main/java/jp/co/benesse/xxx/controller/{open|secure}/{category}/`
+- パッケージ名: `jp.co.benesse.xxx.controller.{open|secure}.{category}`
+- クラス名: `{Function}Controller`（HTTPメソッド情報はクラス名に含めない）
+
+### 2. Controllerクラスの構造
+```java
+@RestController
+@RequestMapping(UrlConstants.{URL_CONSTANT_NAME})
+public class {Function}Controller implements {適切なインターフェース} {
+
+    @Autowired
+    private {Function}Facade {function}Facade;
+
+    @Override
+    @ApiCodeAnnotation(ApiCode.{FUNCTION}_{HTTP_METHOD})
+    public ResponseEntity<{Function}GetResponse> get({Function}GetRequest request) throws Exception {
+        return ResponseEntity.ok({function}Facade.get(request));
+    }
+}
+```
+
+### 3. 必要なimport文
+```java
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import jp.co.benesse.xxx.common.annotation.ApiCodeAnnotation;
+import jp.co.benesse.xxx.common.constants.UrlConstants;
+import jp.co.benesse.xxx.common.enums.ApiCode;
+import jp.co.benesse.xxx.controller.common.I{HttpMethod}Controller;
+```
+
+## DTO生成ルール
+
+### 1. DTO配置とクラス名
+- Request DTO: `dto/request/{category}/{Function}{HttpMethod}Request`
+- Response DTO: `dto/response/{category}/{Function}{HttpMethod}Response`
+- **重要**: HTTPメソッド（Get、Post、Put、Delete）を必ずクラス名に含める
+
+### 2. DTOの構造
+```java
+public class {Function}{HttpMethod}Request extends BaseRequest {
+    // OpenAPI仕様書のparametersやrequestBodyのpropertiesから生成
+    // バリデーションアノテーションを適用
+}
+```
+
+## フィールド生成ルール
+
+### 1. OpenAPIスキーマとJavaフィールドの対応
+- `type: string` → `String`
+- `type: integer` → `Integer`
+- `type: number` → `BigDecimal`
+- `type: boolean` → `Boolean`
+- `type: array` → `List<T>`
+- `type: object` → カスタムクラスまたは`Map<String, Object>`
+
+### 2. バリデーションアノテーション対応
+- `required` → `@NotNull`
+- `required` かつ `type: string` → `@NotBlank`
+- `minLength`/`maxLength` → `@Size(min = {値}, max = {値})`
+- `pattern` → `@Pattern(regexp = "{正規表現}")`
+- `minimum`/`maximum` → `@Min({値})`/`@Max({値})`
+
+### 3. バリデーション定数の再利用ルール
+- 正規表現パターンやバリデーション関連の定数は、`ValidationConstants.java`を優先的に確認
+- 既に定義されている定数がある場合は、その定数を使用する
+- 定数が未定義の場合のみ、新しい定数を`ValidationConstants.java`に追加する
+- 使用例: `@Pattern(regexp = ValidationConstants.PATTERN_EMAIL)`
+
+### 4. バリデーション設定
+- 使用するアノテーションパッケージ: `jakarta.validation.constraints.*`
+- バリデーションアノテーション付きフィールドの論理名・物理名対応関係を`validation-fields.properties`に定義
+
+### 4. 必要なimport文
+```java
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.Max;
+```
+
+## コンポーネント化ルール
+
+### 1. コンポーネントDTO生成場所
+- リクエスト用: `dto/request/component/`
+- レスポンス用: `dto/response/component/`
+- 命名規則: `{ドメイン名}Dto`（例：`UserDto`、`ProductDto`）
+
+### 2. コンポーネント化の判定条件
+- OpenAPI仕様書でネストされたオブジェクト（`type: object`）が定義されている場合
+- 同じプロパティ構造が複数箇所で使用されている場合
+- 5つ以上のプロパティを持つオブジェクトの場合
+
+### 3. コンポーネントDTOの1本化ルール
+- 類似するコンポーネントDTOは1つのDTOクラスに統合することを優先
+- `@JsonInclude(JsonInclude.Include.NON_NULL)`アノテーションを付与し、nullフィールドをレスポンスから自動除外
+- フィールドの使用可否は、実行時にnull/非nullで制御
+
+#### 1本化の判定条件
+- 2つ以上のコンポーネントDTOで、3つ以上のフィールドが共通している場合
+- フィールド名と型が完全に一致している場合
+- 同一ドメインのデータを扱う場合
+
+#### 1本化DTOの構造
+```java
+@Getter
+@Setter
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class {ドメイン名}Dto {
+    // 全ての用途で使用される可能性のあるフィールドを定義
+    // 用途に応じてnull/非nullで制御
+    
+    @JsonProperty("{propertyName}")
+    {バリデーションアノテーション}
+    private {Type} {fieldName};
+}
+```
+
+### 4. 使用例
+```java
+// 基本情報のみ取得時
+user.setId("1");
+user.setCmnCstNo("1234567890");
+// nickname, isExpiredはnullのままでレスポンスから除外
+
+// 詳細情報取得時
+user.setId("1");
+user.setCmnCstNo("1234567890");
+user.setNickname("テストユーザー");
+user.setIsExpired(false);
+```
+
+### 5. 必要なimport文
+```java
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+```
+
+## Facade生成ルール
+
+### 1. 生成場所とパッケージ
+- 生成場所: `facade/{category}/{Function}Facade`
+- クラス名: `{Function}Facade`
+
+### 2. Facadeクラスの構造
+```java
+@Service
+public class {Function}Facade implements {適切なインターフェース} {
+
+    @Override
+    public {Function}GetResponse get({Function}GetRequest request) throws Exception {
+        {Function}GetResponse response = new {Function}GetResponse();
+        
+        // TODO: ビジネスロジックの実装
+        // 1. リクエストパラメータの検証
+        // 2. データアクセス層の呼び出し
+        // 3. レスポンスDTOの組み立て
+        
+        return response;
+    }
+}
+```
+
+### 3. 必要なimport文
+```java
+import org.springframework.stereotype.Service;
+import jp.co.benesse.xxx.facade.common.I{HttpMethod}Facade;
+```
+
+## 生成時の注意事項
+
+### 1. 実行順序
+1. ApiCategoryとApiCodeの追加（必要な場合）
+2. UrlConstantsの追加
+3. Controller、DTO、Facadeの生成（同じエンドポイントの複数HTTPメソッドは1つのクラスにまとめる）
+
+### 2. 自動生成対象
+- 必要なimport文を自動で追加
+- SpringBootアノテーション、バリデーションライブラリ、プロジェクト内の共通クラス
+- 生成前に対象ディレクトリが存在するか確認、存在しない場合は自動作成
+
+### 3. 生成対象の判定
+- OpenAPI仕様書のpathsセクションに定義されたすべてのAPI（deprecatedがfalseのもの）
+- tagsが設定されているAPIを優先
+- 同じエンドポイントに複数のHTTPメソッドがある場合は1つのControllerクラスにまとめる
+
+### 4. 生成後の確認事項
+- 生成されたコードがコンパイルエラーなく実行できること
+- プロジェクトの命名規則に準拠していること
+- Javadocが適切に生成されていること
+
+## タグとカテゴリの対応表
+
+| タグ名 | ApiCategory | 接頭辞 | 説明 |
+|--------|-------------|--------|------|
+| 認証（AT） | AUTH | AT | 認証関連API |
+| その他（OT） | OTHER | OT | システム共通機能 |
+
+## URL構造とパス変換ルール
+
+| OpenAPIパス | Controllerパッケージ | UrlConstants |
+|-------------|---------------------|--------------|
+| `/open/{category}/*` | `controller.open.{category}` | `{接頭辞}_OPEN_{機能名}` |
+| `/secure/{category}/*` | `controller.secure.{category}` | `{接頭辞}_SECURE_{機能名}` |

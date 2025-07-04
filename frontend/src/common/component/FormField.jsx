@@ -22,7 +22,34 @@ const FormField = ({
         try {
             const response = await fetch(field.apiUrl);
             const data = await response.json();
-            setOptions(data.options || []);
+
+            console.log('API Response:', data);
+
+            // APIレスポンスのdata配列を取得
+            const apiData = data.data || [];
+
+            // オプション形式に変換
+            const formattedOptions = apiData.map(item => {
+                // selectedOptionPropertiesが指定されている場合はそれを使用、なければデフォルト動作
+                if (field.selectedOptionProperties) {
+                    const valueProperty = field.selectedOptionProperties.value;
+                    const labelProperty = field.selectedOptionProperties.label;
+                    return {
+                        value: item[valueProperty] || '',
+                        label: item[labelProperty] || ''
+                    };
+                } else {
+                    // デフォルト動作：1番目のプロパティをvalueとlabelの両方に使用
+                    const keys = Object.keys(item);
+                    const labelValue = item[keys[0]] || '';
+                    return {
+                        value: labelValue,
+                        label: labelValue
+                    };
+                }
+            });
+
+            setOptions(formattedOptions);
         } catch (error) {
             console.error('Failed to fetch options:', error);
             setOptions([]);
@@ -72,16 +99,8 @@ const FormField = ({
             case 'select':
                 return (
                     <select {...commonProps}>
-                        {field.placeholder && (
-                            <option value="">{field.placeholder}</option>
-                        )}
-                        {field.options?.map(option => (
-                            <option key={option.value} value={option.value}>
-                                {option.label}
-                            </option>
-                        ))}
-                        {options.map(option => (
-                            <option key={option.value} value={option.value}>
+                        {options.map((option, index) => (
+                            <option key={`${option.value || 'empty'}-${index}`} value={option.value}>
                                 {option.label}
                             </option>
                         ))}

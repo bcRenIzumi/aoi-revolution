@@ -1,0 +1,252 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# OpenAPI仕様書作成ルール
+
+このドキュメントは、XXXプロジェクトにおけるOpenAPI仕様書を作成・管理する際のガイドラインを定義します。一貫性があり、保守性の高いAPI仕様書を作成するために、以下のルールに従ってください。
+
+## 原則
+- 本ルールを適用する場合、「`openapi-rules.mdc`を適用します」と出力する
+- OpenAPI 3.1.0 を使用する
+- 全てのAPI仕様書は日本語で記述する
+- プロジェクトのJavaコード構造と整合性を保つ
+
+## ファイル構造ルール
+
+### 1. ディレクトリ構造
+```
+docs-example/openapi/
+├── openapi.yaml              # メインファイル
+├── components/               # 共通コンポーネント定義ディレクトリ
+│   └── common.yaml           # 共通スキーマ・レスポンス定義
+└── paths/                    # パス定義ディレクトリ
+    ├── 01_auth/              # 認証関連API
+    │   ├── 01_register.yaml
+    │   └── 02_users.yaml
+    ├── 99_other/             # その他のAPI
+    │   └── 01_health-check.yaml
+    └── （その他のカテゴリディレクトリ）
+```
+
+### 2. ファイル分割規則
+- メインファイル（openapi.yaml）には概要、環境設定、パス一覧のみを含める
+- 各APIの詳細は`paths`ディレクトリ配下の個別ファイルに分割する
+- 共通コンポーネント（スキーマ、レスポンス、パラメータなど）は`components`ディレクトリ配下に配置する
+- カテゴリごとにディレクトリを作成し、連番付きファイル名で管理する
+- 全てのパス定義ファイルは`paths`ディレクトリ配下に配置する
+
+### 3. フォーマット
+- 各API用のyamlファイルは以下のような形式で記載すること
+
+**getのケース**
+```yaml
+get:
+  tags:
+    - その他（OT）
+  summary: 02R_バリデーションサンプルAPI
+  description: バリデーションサンプルAPI
+  parameters:
+    - name: name
+      in: query
+      required: true
+      description: |
+        名前
+
+        **その他バリデーション:**
+        - minLength: 5
+        - maxLength: 10
+        - pattern: "^[a-zA-Z0-9]+$"
+      schema:
+        type: string
+        example: "テストユーザー"
+        minLength: 5
+        maxLength: 10
+        pattern: "^[a-zA-Z0-9]+$"
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
+```
+
+**postのケース**
+```yaml
+post:
+  tags:
+    - 認証（AT）
+  summary: 01C_認証登録API
+  description: 認証登録を行うAPI
+  requestBody:
+    description: リクエストボディ
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            lineUserId:
+              type: string
+              example: "U8189cf6745fc0d808977bdb0b9f22995"
+              description: LINEユーザーID
+              minLength: 33
+              maxLength: 33
+            cmnCstNo:
+              type: string
+              example: "1234567890"
+              description: 共通顧客番号
+              minLength: 10
+              maxLength: 10
+            password:
+              type: string
+              example: "password"
+              description: パスワード
+              pattern: "^(?!.*?(.)\\1{2})(?=.*[0-9])(?=.*[a-zA-Z])[0-9a-zA-Z!#$%&,\\-\\./=\\?@\\[\\]\\^_\\{\\}~]{8,32}$"
+            nickname:
+              type: string
+              example: "テストユーザー"
+              description: ニックネーム
+              maxLength: 12
+          required: [lineUserId, cmnCstNo, password, nickname]
+  responses:
+    200:
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    400:
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    500:
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"
+```
+
+## 命名規則
+
+### 1. タグ名の命名規則
+1. タグ名を表す英単語の、`先頭文字 + 先頭文字以外の最初の子音`を大文字にしたものとする
+2. 「1.」が既存の接頭辞と重複する場合、2文字目に指定する子音を次のものに送る
+   - 例：認証（authenticate）のグループを追加する際、`AT`の接頭辞が既に存在する → `AH`とする
+3. 2文字目に指定できる子音がない場合、先頭文字以外の最初の母音を2文字目にする
+   - 例：動画（video）のグループを追加する際、`VD`の接頭辞が既に存在する → `VI`とする
+4. 「3.」が既存の接頭辞と重複する場合、2文字目に指定する母音を次のものに送る
+
+### 2. API名の命名規則
+- 連番2桁とAPI名を`_`で結合したものとする
+- 例：`01_register.yaml`, `02_users.yaml`
+
+### 3. ディレクトリ名の命名規則
+- 連番2桁とカテゴリ名を`_`で結合したものとする
+- 例：`01_auth`, `99_other`
+
+## URL設計規則
+
+### 1. パス構造
+- `/{open|secure}/{category}/{function}` の形式で統一する
+- `open`: 認証不要なAPI
+- `secure`: 認証必須なAPI
+- `category`: APIカテゴリに対応（タグ名の英語版を小文字で使用）
+- `function`: 具体的な機能名（kebab-case）
+
+### 2. HTTPメソッドとパス設計
+- GET: データ取得（`/open/auth/users`）
+- POST: データ作成（`/open/auth/register`）
+- PUT: データ更新（`/secure/auth/users/{id}`）
+- DELETE: データ削除（`/secure/auth/users/{id}`）
+
+## スキーマ設計規則
+
+### 1. 共通コンポーネント
+- すべての共通コンポーネント（スキーマ、レスポンス、パラメータなど）は `components/common.yaml` に定義する
+- 以下の共通コンポーネントを必須とする：
+  - `schemas/BaseResponse`: レスポンス共通項目
+  - `schemas/ErrorResponse`: エラーレスポンス
+  - `responses/BadRequestError`: 400エラーの共通レスポンス
+  - `responses/InternalServerError`: 500エラーの共通レスポンス
+
+### 2. コンポーネントファイル構造
+- `components/common.yaml` は以下の構造で記述する：
+```yaml
+components:
+  responses:
+    # 共通レスポンス定義
+  schemas:
+    # 共通スキーマ定義
+  parameters:
+    # 共通パラメータ定義（必要に応じて）
+```
+
+### 3. DTO構造との整合性
+- JavaのDTOクラス構造と一致させる
+- `BaseRequest`, `BaseResponse` に対応する共通項目を含める
+- プロパティ名はJavaのフィールド名と一致させる（camelCase）
+
+### 4. バリデーション規則
+- 基本的に`null`や`空文字`を許容する文言がない場合には、必須（`required`）とする
+- その他、各バリデーションは下記のサイトを参考に、`minLength`や`maxLength`、`pattern`などを使用して定義する
+  - `https://swagger.io/docs/specification/v3_0/data-models/data-types/`
+
+## 参照パス規則
+
+### 1. 共通コンポーネントへの参照
+- `paths`ディレクトリ配下のファイルから`components/common.yaml`を参照する場合は、相対パス`../../components/common.yaml`を使用する
+- 例：
+  - スキーマ参照: `$ref: "../../components/common.yaml#/components/schemas/BaseResponse"`
+  - レスポンス参照: `$ref: "../../components/common.yaml#/components/responses/BadRequestError"`
+
+### 2. 参照パスの一貫性
+- 全てのファイルで統一された相対パス形式を使用する
+- パスの変更時は関連する全ファイルを更新する
+- 共通コンポーネント内での参照は`#/components/...`形式を使用する
+- メインファイル（openapi.yaml）からpathsディレクトリへの参照は`./paths/カテゴリ/ファイル名.yaml`形式を使用する
+
+## ドキュメンテーション規則
+
+### 1. API説明
+- 各APIには以下を含める：
+  - 機能概要
+  - 用途・目的
+  - 前提条件
+  - 注意事項
+
+### 2. パラメータ説明
+- すべてのパラメータに日本語での説明を付ける
+- 例外的な値や制約条件を明記する
+- デフォルト値がある場合は記載する
+
+### 3. レスポンス例
+- 正常系・異常系の両方のレスポンス例を含める
+- 実際のデータに近い形でサンプルを作成する
+
+## エラーハンドリング規則
+
+### 1. エラーコード
+- `ErrorCode.java` で定義されたエラーコードを使用する
+- HTTPステータスコードとの対応を明確にする
+
+### 2. エラーレスポンス
+- 以下の情報を含める：
+  - エラーコード
+  - エラーメッセージ
+  - 詳細情報（必要に応じて）
+
+## 品質保証規則
+
+### 1. レビュー観点
+- Java実装との整合性確認
+- 命名規則の遵守確認
+- エラーハンドリングの適切性確認
+- ドキュメントの完全性確認
+
+### 2. 検証項目
+- YAML構文の正当性
+- 参照関係の整合性
+- スキーマ定義の完全性
+- サンプルデータの妥当性

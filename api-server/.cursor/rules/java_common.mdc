@@ -1,0 +1,111 @@
+---
+description: 
+globs: *.java
+alwaysApply: false
+---
+# Javaの共通ルール
+
+## 原則
+- 本ルールを適用する場合、「`java_common.mdc`を適用します」と出力する
+- 本ルールを適用する場合、以下のルールも同時に適用する
+  - `java_javadoc.mdc`
+
+## 共通ルール
+- SpringBootの原則に従い、実装する（例. クラスの初期化時は`@Autowired`で行う）
+
+## Lombokアノテーション使用ルール
+- DTOクラス（Request/Response）、Entityクラス、Formクラスなどのドメインクラスでは、Getter・Setterメソッドを手動で作成せず、Lombokの`@Getter`、`@Setter`アノテーションを使用する
+- 必要に応じて以下のLombokアノテーションも活用する：
+  - `@Data`: @Getter、@Setter、@ToString、@EqualsAndHashCode、@RequiredArgsConstructorを含む
+  - `@Builder`: ビルダーパターンの実装
+  - `@AllArgsConstructor`: 全フィールドを引数とするコンストラクタ
+  - `@NoArgsConstructor`: デフォルトコンストラクタ
+- 手動でGetter・Setterを作成することは禁止する
+
+## バリデーションルール
+
+### 基本方針
+- バリデーション制約は、定数値、フィールド名、メッセージを分離して管理する
+- 各役割に応じたファイルで一元管理し、保守性と再利用性を向上させる
+
+### ファイル役割分担
+1. **ValidationConstants.java**: 制約値（文字列長、正規表現パターン等）の定数を定義
+2. **validation-fields.properties**: フィールド名の表示名を定義
+3. **validation-messages.properties**: バリデーションメッセージテンプレートを定義
+
+### 制約値の定義ルール
+- 文字列長制約、正規表現パターン等の制約値は`ValidationConstants.java`で定数として定義する
+- 同じ制約値を複数箇所で使用する場合、ハードコーディングではなく定数を参照する
+- 例：`@Size(min = ValidationConstants.LINE_USER_ID_LENGTH, max = ValidationConstants.LINE_USER_ID_LENGTH)`
+
+### フィールド名の定義ルール
+- フィールドの表示名は`validation-fields.properties`で定義する
+- プロパティキーはJavaのフィールド名と一致させる
+- 例：`lineUserId=LINEユーザーID`、`cmnCstNo=共通顧客番号`
+
+### バリデーションメッセージの定義ルール
+- 汎用的なバリデーションメッセージは`validation-messages.properties`で定義する
+- Spring Bootの標準バリデーションアノテーションに対応するメッセージを定義
+- メッセージテンプレートでは`{0}`でフィールド名、`{min}`、`{max}`等で制約値を参照
+- 例：`jakarta.validation.constraints.Size.message={0}は{min}文字以上、{max}文字以下で入力してください。`
+
+### アノテーション記述ルール
+- バリデーションアノテーションには基本的に`message`属性を指定しない（デフォルトメッセージを使用）
+- 制約値は`ValidationConstants.java`の定数を参照する
+- 例：
+```java
+@NotBlank
+@Size(min = ValidationConstants.LINE_USER_ID_LENGTH, max = ValidationConstants.LINE_USER_ID_LENGTH)
+private String lineUserId;
+```
+
+### 階層構造バリデーションルール
+- リクエストクラスで階層構造化されたフィールド（ネストしたオブジェクトやリスト）に対しては、`@Valid`アノテーションを付与する
+- 例：`List<SubjectInputDto>`や`ComponentDto`等のカスタムオブジェクトフィールドには`@Valid`を必須とする
+
+## コンポーネントクラス設計ルール
+- DTOクラス内で複雑なオブジェクト構造が必要な場合、入れ子クラス（内部クラス）は避ける
+- 代わりに独立したコンポーネントクラスを作成し、適切なパッケージに配置する
+- コンポーネントクラスの配置場所：
+  - Request用：`api-server/src/main/java/jp/co/benesse/xxx/dto/component/request/{category}/`
+  - Response用：`api-server/src/main/java/jp/co/benesse/xxx/dto/component/response/{category}/`
+  - 共通用：`api-server/src/main/java/jp/co/benesse/xxx/dto/component/common/`
+- コンポーネントクラスの命名規則：
+  - 目的や用途を明確に表す名前を付ける
+  - 例：`TextInfo`, `CheckboxInfo`, `RadioInfo`
+- コンポーネントクラスもLombokアノテーションを使用してGetter・Setterを自動生成する
+
+## クラス作成時のルール
+- クラス名は PascalCase を使用する
+- クラス名は名詞を使用する
+- クラスは単一責任の原則（SRP）に従う
+- クラスは適切なアクセス修飾子（public, protected, private）を使用する
+- クラスは適切なパッケージに配置する
+
+## メソッド作成時のルール
+- メソッド名は camelCase を使用する
+- メソッド名は動詞で始める
+- メソッドは単一の責任を持つ
+- メソッドは適切なアクセス修飾子を使用する
+- メソッドは適切な戻り値の型を持つ
+- メソッドは適切な例外処理を行う
+
+## 例外スロー時のルール
+- 例外スローは以下の自作Exceptionクラスを使用する（パス：`api-server/src/main/java/jp/co/benesse/xxx/common/exception`）
+  - 400系：`BadRequestException.java`
+  - 401系：`UnauthorizedException.java`
+  - 500系：`InternalServerErrorException.java`
+  - 503系：`ServiceUnavailableException.java`
+
+## 定数・ユーティリティ作成時のルール
+- 定数やユーティリティを作成する場合、以下のパッケージ配下に同様の実装がないかを必ず確認する。
+  - `api-server/src/main/java/jp/co/benesse/xxx/common/constants`
+  - `api-server/src/main/java/jp/co/benesse/xxx/common/util`
+- 既に同様の定数やユーティリティが存在する場合、それらを参照する
+
+## コードスタイル
+- インデントは4スペースを使用
+- 1行の長さは120文字以内
+- 適切な空行を使用してコードの可読性を高める
+- 適切な変数名を使用する
+- マジックナンバーは定数として定義する

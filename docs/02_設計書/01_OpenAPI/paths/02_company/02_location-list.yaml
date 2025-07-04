@@ -1,0 +1,42 @@
+get:
+  tags:
+    - 企業系（CP）
+  summary: CP02R_拠点一覧取得API
+  description: 該当企業の拠点一覧情報を取得する
+  parameters:
+    - name: id
+      in: query
+      required: true
+      description: 企業ID
+      schema:
+        type: string
+        example: "C0001"
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        locationId:
+                          type: string
+                          description: 拠点ID
+                          example: "L0001"
+                        locationName:
+                          type: string
+                          description: 拠点名
+                          example: "本社"
+                      required: [locationId, locationName]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

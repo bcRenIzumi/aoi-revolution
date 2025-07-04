@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useApplication } from '../../../../context/ApplicationContext';
 import ButtonGroup from '../../../component/ButtonGroup';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
@@ -6,32 +7,29 @@ import '../CSS/AppFile.css';
 import FileSection from './FileSection';
 import ServiceDescription from './ServiceDescription';
 
-const AppFile = ({ headerConfig, infoConfig }) => {
-    const [attachedFiles, setAttachedFiles] = useState({});
+const AppFile = ({ headerConfig, infoConfig, pageNumber }) => {
+    const { fileData, updateFileData } = useApplication();
+    const [attachedFiles, setAttachedFiles] = useState(fileData);
+
+    // Contextが更新されたらローカル状態も更新
+    useEffect(() => {
+        setAttachedFiles(fileData);
+    }, [fileData]);
 
     const handleFileAttach = (fileNumber, file) => {
-        setAttachedFiles(prev => ({
-            ...prev,
+        const newAttachedFiles = {
+            ...attachedFiles,
             [fileNumber]: file
-        }));
+        };
+        setAttachedFiles(newAttachedFiles);
+        updateFileData(newAttachedFiles);
     };
 
     const handleFileRemove = (fileNumber) => {
-        setAttachedFiles(prev => {
-            const newFiles = { ...prev };
-            delete newFiles[fileNumber];
-            return newFiles;
-        });
-    };
-
-    const handleGoBack = () => {
-        if (Object.keys(attachedFiles).length > 0) {
-            if (window.confirm('入力内容が失われますが、前のページに戻りますか？')) {
-                window.history.back();
-            }
-        } else {
-            window.history.back();
-        }
+        const newFiles = { ...attachedFiles };
+        delete newFiles[fileNumber];
+        setAttachedFiles(newFiles);
+        updateFileData(newFiles);
     };
 
     const handleSaveDraft = () => {
@@ -46,30 +44,27 @@ const AppFile = ({ headerConfig, infoConfig }) => {
         };
 
         localStorage.setItem('pc_application_draft', JSON.stringify(draftData));
-        alert('下書きが保存されました');
+        console.log('ファイル情報が下書き保存されました');
     };
 
+    // ファイル選択の必須チェックを削除し、次のページへの遷移はButtonGroupに任せる
     const handleSubmit = () => {
-        const hasAnyFile = Object.keys(attachedFiles).length > 0;
-
-        if (!hasAnyFile) {
-            alert('少なくとも1つのファイルを選択してください。');
-            return;
-        }
-
-        if (window.confirm('申請内容を送信しますか？')) {
-            alert('申請が正常に送信されました。ありがとうございます。');
-        }
+        console.log('ファイル情報を送信:', attachedFiles);
+        // ButtonGroupが自動的に次のページに遷移する
     };
 
     return (
         <div className="app-file">
             <div className="container-large">
-                <Header title={headerConfig?.title} description={headerConfig?.description} />
+                <Header
+                    title={headerConfig.title}
+                    description={headerConfig.description}
+                    pageNumber={pageNumber}
+                />
 
                 <div className="info-section">
                     <ServiceDescription />
-                    <InfoSection infoConfig={infoConfig} />
+                    <InfoSection config={infoConfig} />
                 </div>
 
                 <div className="main-content">
@@ -80,9 +75,10 @@ const AppFile = ({ headerConfig, infoConfig }) => {
                     />
 
                     <ButtonGroup
-                        onGoBack={handleGoBack}
                         onSaveDraft={handleSaveDraft}
                         onSubmit={handleSubmit}
+                        isConfirmPage={false}
+                        pageNumber={pageNumber}
                     />
                 </div>
             </div>

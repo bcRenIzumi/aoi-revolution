@@ -1,0 +1,16 @@
+get:
+  tags:
+    - その他（OT）
+  summary: 01R_ヘルスチェックAPI
+  description: サーバーの状態を確認するAPI
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

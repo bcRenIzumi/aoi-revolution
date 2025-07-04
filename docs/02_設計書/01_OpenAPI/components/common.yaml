@@ -1,0 +1,49 @@
+components:
+  responses:
+    BadRequestError:
+      description: パラメータエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+    InternalServerError:
+      description: 想定外のエラー
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/ErrorResponse"
+
+  schemas:
+    BaseResponse:
+      type: object
+      description: 正常系の共通レスポンス
+      properties:
+        common:
+          type: object
+          properties:
+            processingTime:
+              type: string
+              example: yyyyMMddHHmmss
+              description: 業務日付
+          required: [processingTime]
+      required: [common]
+    ErrorResponse:
+      type: object
+      properties:
+        common:
+          type: object
+          properties:
+            processingTime:
+              type: string
+              example: yyyyMMddHHmmss
+              description: 業務日付
+            errorCode:
+              type: string
+              example: EXXXX
+              description: エラーコードを表す。エラーコード定義書を参照。
+            errorMessage:
+              type: string
+              example: YYでエラーが発生しました。
+              description: エラーメッセージを表す。エラーコード定義書を参照。
+          required: [processingTime, errorCode, errorMessage]
+      required: [common]

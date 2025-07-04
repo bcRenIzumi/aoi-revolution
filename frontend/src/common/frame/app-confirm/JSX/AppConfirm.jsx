@@ -1,58 +1,54 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useApplication } from '../../../../context/ApplicationContext';
 import ButtonGroup from '../../../component/ButtonGroup';
 import Header from '../../../component/Header';
 import InfoSection from '../../../component/InfoSection';
 import '../CSS/AppConfirm.css';
 import ConfirmationContent from './ConfirmationContent';
 
-const AppConfirm = ({ headerConfig, infoConfig }) => {
-    const handleGoBack = () => {
-        if (window.confirm('前のページに戻りますか？')) {
-            window.history.back();
+const AppConfirm = ({ headerConfig, infoConfig, basicFormConfig, formConfig, pageNumber }) => {
+    const { submitApplication } = useApplication();
+    const [isSubmitting, setIsSubmitting] = useState(false);
+
+    const handleSubmitApplication = async () => {
+        if (isSubmitting) return;
+
+        setIsSubmitting(true);
+        try {
+            await submitApplication();
+            console.log('申請が正常に送信されました');
+        } catch (error) {
+            console.error('申請送信でエラーが発生しました:', error);
+            alert('申請送信でエラーが発生しました。もう一度お試しください。');
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
     const handleSaveDraft = () => {
-        // 下書きデータの作成
-        const draftData = {
-            timestamp: new Date().toISOString(),
-            formType: 'PC新規手配申請'
-        };
-
-        // ローカルストレージに保存
-        localStorage.setItem('pc_application_draft', JSON.stringify(draftData));
-
-        // 保存完了のメッセージ
-        alert('下書きが保存されました');
-    };
-
-    const handleSubmitApplication = () => {
-        if (window.confirm('申請内容を送信しますか？送信後は修正できません。')) {
-            // 送信処理のシミュレーション
-            const submitPromise = new Promise((resolve) => {
-                setTimeout(() => {
-                    resolve();
-                }, 2000);
-            });
-
-            submitPromise.then(() => {
-                alert('申請が正常に送信されました。\n申請番号: AOI2024/000001\n\n承認状況は申請一覧画面でご確認いただけます。');
-                console.log('申請一覧画面に遷移');
-            });
-        }
+        console.log('確認内容を下書き保存しました');
+        // 下書き保存処理をここに実装
     };
 
     return (
         <div className="app-confirm">
             <div className="container">
-                <Header title={headerConfig?.title} description={headerConfig?.description} />
-                <InfoSection infoConfig={infoConfig} />
+                <Header
+                    title={headerConfig?.title}
+                    description={headerConfig?.description}
+                    pageNumber={pageNumber}
+                />
+                <InfoSection config={infoConfig} />
                 <div className="main-content">
-                    <ConfirmationContent />
+                    <ConfirmationContent
+                        basicFormConfig={basicFormConfig}
+                        formConfig={formConfig}
+                    />
                     <ButtonGroup
-                        onGoBack={handleGoBack}
                         onSaveDraft={handleSaveDraft}
                         onSubmit={handleSubmitApplication}
+                        isConfirmPage={true}
+                        pageNumber={pageNumber}
                     />
                 </div>
             </div>

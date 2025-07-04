@@ -1,0 +1,38 @@
+get:
+  tags:
+    - 社員系（EM）
+  summary: EM01R_社員一覧取得API
+  description: 社員の一覧情報を取得する
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+              - type: object
+                properties:
+                  data:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        name:
+                          type: string
+                          description: 氏名
+                          example: "山田太郎"
+                        companyName:
+                          type: string
+                          description: 企業名
+                          example: "株式会社XXX"
+                        department:
+                          type: string
+                          description: 部署
+                          example: "IT部"
+                      required: [name, companyName, department]
+                required: [data]
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

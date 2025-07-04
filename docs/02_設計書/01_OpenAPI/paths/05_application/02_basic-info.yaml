@@ -1,0 +1,50 @@
+post:
+  tags:
+    - 申請系（AP）
+  summary: AP02C_基本情報仮登録API
+  description: 基本情報を仮登録する
+  parameters:
+    - name: id
+      in: query
+      required: true
+      description: 申請番号
+      schema:
+        type: string
+        example: "A202401010001"
+  requestBody:
+    description: リクエストボディ
+    required: true
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            basicInfo:
+              type: object
+              description: 基本情報
+              properties:
+                employeeId:
+                  type: string
+                  description: 社員ID
+                  example: "E0001"
+                companyId:
+                  type: string
+                  description: 企業ID
+                  example: "C0001"
+                locationId:
+                  type: string
+                  description: 拠点ID
+                  example: "L0001"
+              required: [employeeId, companyId, locationId]
+          required: [basicInfo]
+  responses:
+    "200":
+      description: 成功時の動き
+      content:
+        application/json:
+          schema:
+            $ref: "../../components/common.yaml#/components/schemas/BaseResponse"
+    "400":
+      $ref: "../../components/common.yaml#/components/responses/BadRequestError"
+    "500":
+      $ref: "../../components/common.yaml#/components/responses/InternalServerError"

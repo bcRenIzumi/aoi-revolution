@@ -1,0 +1,11 @@
+---
+alwaysApply: true
+---
+
+# 原則
+
+このルールを参照した際は、「${ルール名}を参照しました」と報告すること
+
+## api
+
+formConfigに設定するapiUrlは、フォーム項目の内容から、合致しそうなAPIを「/docs/02_設計書/01_OpenAPI/openapi.yaml」を選択してください。
