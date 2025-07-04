@@ -85,8 +85,8 @@ frontend/
 
 **`app/ID_XXXX/`**: アプリケーション固有の設定
 
-- **`formConfig1.js`**: 基本フォームの設定（フィールド定義、バリデーション等）
-- **`formConfig2.js`**: 詳細フォームの設定
+- **`basicFormConfig.js`**: 基本フォームの設定（フィールド定義、バリデーション等）
+- **`formConfig.js`**: 詳細フォームの設定
 - **`headerConfig.js`**: ヘッダーの設定（タイトル、説明文）
 - **`infoSectionConfig.js`**: 情報セクションの設定（ブロック内容、リンク等）
 
