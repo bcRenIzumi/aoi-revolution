@@ -1,4 +1,4 @@
-import React, { createContext, useCallback, useContext, useReducer } from 'react';
+import React, { createContext, useCallback, useContext, useEffect, useReducer } from 'react';
 
 // アクションタイプ
 const ACTION_TYPES = {
@@ -6,7 +6,31 @@ const ACTION_TYPES = {
     UPDATE_DETAIL_FORM: 'UPDATE_DETAIL_FORM',
     UPDATE_FILE_DATA: 'UPDATE_FILE_DATA',
     RESET_FORM: 'RESET_FORM',
-    SET_APPLICATION_NUMBER: 'SET_APPLICATION_NUMBER'
+    SET_APPLICATION_NUMBER: 'SET_APPLICATION_NUMBER',
+    RESTORE_STATE: 'RESTORE_STATE'
+};
+
+// SessionStorageキー
+const STORAGE_KEY = 'applicationFormState';
+
+// SessionStorageから状態を復元する関数
+const restoreStateFromStorage = () => {
+    try {
+        const savedState = sessionStorage.getItem(STORAGE_KEY);
+        return savedState ? JSON.parse(savedState) : null;
+    } catch (error) {
+        console.error('Failed to restore state from sessionStorage:', error);
+        return null;
+    }
+};
+
+// SessionStorageに状態を保存する関数
+const saveStateToStorage = (state) => {
+    try {
+        sessionStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    } catch (error) {
+        console.error('Failed to save state to sessionStorage:', error);
+    }
 };
 
 // 初期状態
@@ -16,6 +40,12 @@ const initialState = {
     fileData: {},
     applicationNumber: null,
     isSubmitting: false
+};
+
+// 初期状態を復元された状態で上書き
+const getInitialState = () => {
+    const restoredState = restoreStateFromStorage();
+    return restoredState ? { ...initialState, ...restoredState } : initialState;
 };
 
 // Reducer関数
@@ -41,6 +71,8 @@ const applicationReducer = (state, action) => {
                 ...state,
                 applicationNumber: action.payload
             };
+        case ACTION_TYPES.RESTORE_STATE:
+            return { ...state, ...action.payload };
         case ACTION_TYPES.RESET_FORM:
             return initialState;
         default:
@@ -53,7 +85,12 @@ const ApplicationContext = createContext();
 
 // Provider コンポーネント
 export const ApplicationProvider = ({ children }) => {
-    const [state, dispatch] = useReducer(applicationReducer, initialState);
+    const [state, dispatch] = useReducer(applicationReducer, getInitialState());
+
+    // 状態が変更されるたびにSessionStorageに保存
+    useEffect(() => {
+        saveStateToStorage(state);
+    }, [state]);
 
     // アクション関数（useCallbackでメモ化）
     const updateBasicForm = useCallback((data) => {
@@ -74,6 +111,16 @@ export const ApplicationProvider = ({ children }) => {
 
     const resetForm = useCallback(() => {
         dispatch({ type: ACTION_TYPES.RESET_FORM });
+        // SessionStorageもクリア
+        sessionStorage.removeItem(STORAGE_KEY);
+    }, []);
+
+    // 状態復元関数
+    const restoreState = useCallback(() => {
+        const restoredState = restoreStateFromStorage();
+        if (restoredState) {
+            dispatch({ type: ACTION_TYPES.RESTORE_STATE, payload: restoredState });
+        }
     }, []);
 
     // API送信関数
@@ -122,6 +169,7 @@ export const ApplicationProvider = ({ children }) => {
         updateFileData,
         setApplicationNumber,
         resetForm,
+        restoreState,
         submitApplication
     };
 

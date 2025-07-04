@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit, isConfirmPage = false, pageNumber = 1 }) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isDraftSaving, setIsDraftSaving] = useState(false);
     const navigate = useNavigate();
+    const location = useLocation();
 
     // ページ遷移のマッピング
     const pageRoutes = {
@@ -25,7 +26,8 @@ const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit, isConfirmPage = false, p
             // すべてのページで次のページに遷移（確認ページ含む）
             if (pageNumber < 5) {
                 const nextPage = pageRoutes[pageNumber + 1];
-                navigate(`../${nextPage}`, { replace: true });
+                // replace: true を削除して履歴を正常に蓄積
+                navigate(`../${nextPage}`);
                 // ページ遷移後、一番上にスクロール
                 setTimeout(() => window.scrollTo(0, 0), 0);
             }
@@ -38,9 +40,16 @@ const ButtonGroup = ({ onGoBack, onSaveDraft, onSubmit, isConfirmPage = false, p
         if (onGoBack) {
             onGoBack();
         } else if (pageNumber > 1) {
-            // デフォルトの戻る処理：前のページに遷移
             const prevPage = pageRoutes[pageNumber - 1];
-            navigate(`../${prevPage}`, { replace: true });
+            const currentPath = location.pathname;
+
+            // 申請フロー内で履歴がある場合はブラウザ履歴を使用
+            if (currentPath.includes('/ID_000') && window.history.length > 1) {
+                navigate(-1);
+            } else {
+                // フォールバック: 直接前ページに遷移
+                navigate(`../${prevPage}`);
+            }
             // ページ遷移後、一番上にスクロール
             setTimeout(() => window.scrollTo(0, 0), 0);
         }

@@ -22,6 +22,19 @@ const ScrollToTop = ({ children }) => {
 };
 
 function ID_0004() {
+    const location = useLocation();
+
+    // ブラウザの戻るボタン押下時の処理
+    useEffect(() => {
+        const handlePopstate = (event) => {
+            console.log('Browser back button pressed on ID_0004:', location.pathname);
+            // 必要に応じてデータの整合性チェックや状態の復元処理をここに追加
+        };
+
+        window.addEventListener('popstate', handlePopstate);
+        return () => window.removeEventListener('popstate', handlePopstate);
+    }, [location.pathname]);
+
     return (
         <ScrollToTop>
             <Routes>
