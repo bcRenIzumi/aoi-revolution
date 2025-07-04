@@ -5,6 +5,7 @@ import ID_0001 from './page/app/ID_0001/ID_0001'
 import ID_0002 from './page/app/ID_0002/ID_0002'
 import ID_0003 from './page/app/ID_0003/ID_0003'
 import ID_0004 from './page/app/ID_0004/ID_0004'
+import Sample from './page/app/sample/sample'
 
 function App() {
     return (
@@ -15,6 +16,7 @@ function App() {
                     <Route path="/ID_0002/*" element={<ID_0002 />} />
                     <Route path="/ID_0003/*" element={<ID_0003 />} />
                     <Route path="/ID_0004/*" element={<ID_0004 />} />
+                    <Route path="/sample/*" element={<Sample />} />
                 </Routes>
             </Router>
         </ApplicationProvider>

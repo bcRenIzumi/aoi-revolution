@@ -1,6 +1,3 @@
----
-alwaysApply: false
----
 # 原則
 
 このルールを参照した際は、「${ルール名}を参照しました」と報告すること
@@ -9,6 +6,9 @@ alwaysApply: false
 
 「/frontend/README.md」を読み、フロントエンドの仕組みを把握してください。
 
-## api
+## API返却値の埋め込み設定【重要】
 
-formConfigに設定するapiUrlは、フォーム項目の内容から、合致しそうなAPIを「/docs/02_設計書/01_OpenAPI/openapi.yaml」を選択してください。
+画面定義書のform.mdで「API返却値の埋め込み」列に「●」が記載されているフィールドは、以下の設定を必須で行うこと
+
+- 「API返却値の埋め込み」が必要なフィールドには適切な `apiUrl` を設定
+- openapi.yamlから該当するエンドポイントを特定して設定
