@@ -1,4 +1,4 @@
-# GitHub Copilot Java コード生成規約
+# Java コード生成規約
 
 ## プロジェクト固有設定値
 - ロジック実装パス: `api-server\src\main\java\jp\co\benesse\xxx\facade`
