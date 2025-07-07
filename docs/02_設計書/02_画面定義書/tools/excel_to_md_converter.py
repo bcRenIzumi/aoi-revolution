@@ -91,7 +91,7 @@ def create_markdown_content(process_no, process_name, flow_pattern, items_data, 
     md_content = f"""# {screen_name}画面 項目一覧
 |日付|更新者|更新内容|
 |---|---|---|
-|{current_date}|BC大島谷|新規作成|
+|{current_date}|ツール|新規作成|
 
 ## 基本情報
 |プロセスNo|プロセス名（申請名）|フローパタン|
